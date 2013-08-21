@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- $NO_CHECK -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:consult="http://www.consult.com.br/jsf/consultutils">
+
+	<!--
+
+	//Documentar os atributos do componente
+	
+    TAG ATTRIBUTES:
+
+     -->
+
+	<h:form id="menuForm" rendered="#{identity.loggedIn}">
+
+		<div id="menu">
+
+			<p:menubar id="menuBar">
+
+				<p:menuitem url="/index.xhtml" icon="ui-icon ui-icon-home"
+					id="menuHome" />
+
+				<p:submenu label="#{messages['menu.cadastros']}"
+					id="submenuCadastros" rendered="#{identity.user.menuCadastros}">
+
+					<p:menuitem id="menuItemEntidade"
+						value="#{messages['menu.cadastros.entidade']}"
+						action="#{trocarUI.mudar}" ajax="true" rendered="#{identity.user.subMenuEntidade}" />
+
+					<p:menuitem id="menuItemAssociado"
+						value="#{messages['menu.cadastros.associado']}"
+						action="#{trocarUI.mudar}" ajax="true" rendered="#{identity.user.subMenuAssociado}" />
+
+					<p:menuitem id="menuItemContraparte"
+						value="#{messages['menu.cadastros.contraparte']}"
+						action="#{trocarUI.mudar}" ajax="true" rendered="#{identity.user.subMenuContraparte}" />
+
+					<p:menuitem id="menuItemProduto"
+						value="#{messages['menu.cadastros.produto']}"
+						action="#{trocarUI.mudar}" ajax="true" rendered="#{identity.user.subMenuProduto}" />
+
+					<p:separator />
+
+					<p:menuitem id="menuItemRelatoriosCad"
+						value="#{messages['menu.relatorios']}" action="#{trocarUI.mudar}"
+						ajax="true" rendered="#{identity.user.subMenuRelatoriosCadastros}" />
+
+				</p:submenu>
+
+				<p:submenu label="#{messages['menu.servicos']}" id="submenuServicos" rendered="#{identity.user.menuServicos}">
+
+					<p:menuitem id="menuItemConsultar"
+						value="#{messages['menu.servicos.consultar']}"
+						action="#{consultarUI.prepareSearch}" ajax="true" rendered="#{identity.user.subMenuConsultar}" />
+
+					<p:menuitem id="menuItemIncluir"
+						value="#{messages['menu.servicos.incluir']}"
+						action="#{restricaoUI.prepareCreate}" ajax="true" rendered="#{identity.user.subMenuIncluir}"  />
+
+					<p:menuitem id="menuItemExcluir"
+						value="#{messages['menu.servicos.excluir']}"
+						action="#{exclusaoUI.prepareSearch}" ajax="true" rendered="#{identity.user.subMenuExcluir}" />
+
+					<p:menuitem id="menuItemCarta"
+						value="#{messages['menu.servicos.carta']}"
+						action="#{trocarUI.mudar}" ajax="true" rendered="#{identity.user.subMenuCarta}" />
+
+					<p:separator />
+
+					<p:menuitem id="menuItemRelatoriosSer"
+						value="#{messages['menu.relatorios']}" action="#{trocarUI.mudar}"
+						ajax="true" rendered="#{identity.user.subMenuRelatoriosServicos}" />
+
+				</p:submenu>
+
+				<p:submenu label="#{messages['menu.faturamento']}"
+					id="submenuFaturamento" rendered="#{identity.user.menuFaturamento}" >
+
+					<p:menuitem id="menuItemFaturamentos"
+						value="#{messages['menu.faturamento.faturamentos']}"
+						action="#{trocarUI.mudar}" rendered="#{identity.user.subMenuFaturamentos}" />
+
+					<p:separator />
+
+					<p:menuitem id="menuItemRelatoriosFat"
+						value="#{messages['menu.relatorios']}" action="#{trocarUI.mudar}"
+						ajax="true" rendered="#{identity.user.subMenuRelatoriosFaturamento}" />
+
+				</p:submenu>
+
+				<p:submenu label="#{messages['menu.auditoria']}"
+					id="submenuAuditoria" rendered="#{identity.user.menuAuditoria}" >
+
+					<p:menuitem id="menuItemAuditorias"
+						value="#{messages['menu.auditoria.logdeauditoria']}"
+						action="#{trocarUI.mudar}" rendered="#{identity.user.subMenuLogAuditoria}" />
+
+					<p:separator />
+
+					<p:menuitem id="menuItemRelatoriosAud"
+						value="#{messages['menu.relatorios']}" action="#{trocarUI.mudar}"
+						ajax="true" rendered="#{identity.user.subMenuRelatoriosAuditoria}" />
+
+				</p:submenu>
+
+				<p:submenu label="#{messages['menu.parametros']}"
+					id="submenuParametros" rendered="#{identity.user.menuParametros}">
+
+					<p:menuitem id="menuItemConfiguracoes"
+						value="#{messages['menu.parametros.configuracoes']}"
+						action="#{trocarUI.mudar}" rendered="#{identity.user.subMenuConfiguracoes}" />
+
+					<p:menuitem id="menuItemOperadores"
+						value="#{messages['menu.parametros.operadores']}"
+						action="#{trocarUI.mudar}" rendered="#{identity.user.subMenuOperadores}" />
+
+					<p:menuitem id="menuItemPerfil"
+						value="#{messages['menu.parametros.perfil']}"
+						action="#{trocarUI.mudar}" rendered="#{identity.user.subMenuPerfil}" />
+
+					<p:separator />
+
+					<p:menuitem id="menuItemRelatoriosPar"
+						value="#{messages['menu.relatorios']}" action="#{trocarUI.mudar}"
+						ajax="true" rendered="#{identity.user.subMenuRelatoriosParametros}" />
+
+				</p:submenu>
+
+				<p:submenu label="#{messages['menu.sair']}" id="submenuSair">
+
+					<p:menuitem id="menuItemSobre"
+						value="#{messages['menu.sair.sobre']}" action="#{trocarUI.mudar}" />
+
+					<p:menuitem id="menuItemLogout"
+						value="#{messages['menu.sair.logout']}"
+						action="#{logoutUI.logout}" />
+
+				</p:submenu>
+
+			</p:menubar>
+
+		</div>
+
+	</h:form>
+
+</ui:composition>
+
+

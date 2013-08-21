@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:web="http://www.web.com.br/jsf/webutils">
+
+	<div id="header">
+
+		<div id="logo">
+			<h1>
+				<h:outputText value="#{messages['header.logo']}" />
+			</h1>
+		</div>
+
+		<div id="slogan">
+
+			<h:panelGrid columns="2" rendered="#{not identity.loggedIn}">
+				
+				<h:panelGrid columns="1">
+					<h2>
+						#{messages['header.slogan']} 
+					</h2>
+				</h:panelGrid>
+
+				<h:panelGrid columns="1">
+					<h2>
+						<h:form id="headerForm">
+							<p:commandLink id="loginLnk" action="#{loginUI.prepareLogin}" ajax="false"
+								value="#{messages['menu.login']}" />
+						</h:form>
+					</h2>
+				</h:panelGrid>
+				
+			</h:panelGrid>
+
+			<h:panelGrid columns="1" rendered="#{identity.loggedIn}">
+			
+					<h:panelGrid columns="2">
+	
+						<web:outputTextField id="operadorLabel"
+							value="#{messages['header.operador']}:" required="false"
+							width="70px" align="right" />
+
+						<web:outputTextField id="operadorValue"
+							value="#{identity.user.operador.codigo} - #{identity.user.operador.nome}" required="false"
+							width="200px" align="left" />
+	
+					</h:panelGrid>				
+
+					<h:panelGrid columns="2">
+
+						<web:outputTextField id="tipoOperadorLabel"
+							value="#{messages['header.tipo']}:" required="false"
+							width="70px" align="right" />
+
+						<web:outputTextField id="tipoOperadorValue"
+							value="#{identity.user.operador.tipoOperador}" required="false"
+							width="200px" align="left" />
+					
+					</h:panelGrid>
+									
+			</h:panelGrid>
+
+		</div>
+		
+	</div>
+
+</ui:composition>

@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="../default/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:consult="http://www.consult.com.br/jsf/consultutils"
+	xmlns:web="http://www.web.com.br/jsf/webutils">
+
+	<ui:define name="contentConsult">
+
+		<fieldset id="fieldCustoOperacao" style="padding: 10px;">
+
+			<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['global.aviso.fieldset']}</legend>
+
+			<h:panelGrid columns="1">
+
+				<web:outputTextField id="msgCustoOperacao"
+					value="#{consultarUI.msgCusstoOperacao}" required="false"
+					width="620px" align="left" />
+
+			</h:panelGrid>
+
+		</fieldset>
+
+		<fieldset id="fieldFiltrosConsultar" style="padding: 10px;">
+
+			<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['global.filtros.fieldset']}</legend>
+
+			<h:panelGrid columns="1">
+
+				<!-- Bloco de Entidade -->
+				<h:panelGrid columns="5">
+
+					<web:outputTextField id="entidadeLabel"
+						value="#{messages['restricao.entidade']}:" required="true"
+						width="120px" align="right" />
+
+					<web:fieldInputText id="entidadeCodigo"
+						value="#{consultarUI.filter.associado.entidade.codigo}"
+						required="true" width="70px"
+						readonly="#{consultarUI.filter.entidadeDisabled}" />
+
+					<p:commandButton id="entidadeSearch" icon="ui-icon-search"
+						disabled="#{consultarUI.filter.entidadeDisabled}" />
+
+					<web:fieldInputText id="entidadeRazaoSocial"
+						value="#{consultarUI.filter.associado.entidade.razaoSocial}"
+						required="false" width="310px" readonly="true" />
+
+					<p:message for="entidadeCodigoText" id="entidadeCodigo_message"
+						display="text" redisplay="true" />
+
+				</h:panelGrid>
+				<!-- ************ -->
+
+				<!-- Bloco de Associado -->
+				<h:panelGrid columns="5">
+
+					<web:outputTextField id="associadoLabel"
+						value="#{messages['restricao.associado']}:" required="true"
+						width="120px" align="right" />
+
+					<web:fieldInputText id="associadoCodigo"
+						value="#{consultarUI.filter.associado.codigo}" required="true"
+						width="70px" readonly="#{consultarUI.filter.associadoDisabled}">
+
+						<p:ajax listener="#{consultarUI.associadoLocate}" update="@form" />
+
+					</web:fieldInputText>
+
+					<p:commandButton id="associadoSearch" icon="ui-icon-search"
+						disabled="#{consultarUI.filter.associadoDisabled}" />
+
+					<web:fieldInputText id="associadoRazaoSocial"
+						value="#{consultarUI.filter.associado.razaoSocial}"
+						required="false" width="310px" readonly="true" />
+
+					<p:message for="associadoCodigoText" id="associadoCodigo_message"
+						display="text" redisplay="true" />
+
+				</h:panelGrid>
+				<!-- ************** -->
+
+				<!-- Bloco do Tipo de Pessoa -->
+				<h:panelGrid columns="3">
+
+					<web:outputTextField id="tipoPessoaLabel"
+						value="#{messages['restricao.tipopessoa']}:" required="true"
+						width="120px" align="right" />
+
+					<web:fieldSelectOneMenu id="tipoPessoaValores"
+						value="#{consultarUI.filter.tipoPessoa}" required="true"
+						width="155px" valueChangeListener="#{consultarUI.changePattern}">
+
+						<web:enumSelectItems value="#{consultarUI.tiposPessoa}" />
+						<p:ajax listener="#{consultarUI.changePattern}" update="@form" />
+
+					</web:fieldSelectOneMenu>
+
+					<p:message for="tipoPessoaValoresText"
+						id="tipoPessoaValores_message" display="text" redisplay="true" />
+
+				</h:panelGrid>
+				<!-- ************** -->
+
+				<!-- Bloco da Contraparte -->
+				<h:panelGrid columns="4">
+
+					<web:outputTextField id="contraparteCpfLabel"
+						value="#{consultarUI.filter.labelCpfPattern}:" required="true"
+						width="120px" align="right" />
+
+					<web:fieldMask id="contraparteCpf"
+						value="#{consultarUI.filter.contraparte.cpf}" required="true"
+						width="145px" mask="#{consultarUI.filter.cpfPattern}">
+
+						<p:ajax listener="#{consultarUI.contraparteLocate}" update="@form" />
+
+					</web:fieldMask>
+
+					<!-- <web:outputTextField id="contraparteNomeLabel"
+						value="#{consultarUI.filter.labelContraparteNome}:" required="false"
+						width="120px" align="right" />  -->
+
+					<web:fieldInputText id="contraparteNome"
+						value="#{consultarUI.filter.contraparte.nome}" required="false"
+						width="270px" readonly="true" />
+
+					<p:message for="contraparteCpfText" id="contraparteCpf_message"
+						display="text" redisplay="true" />
+
+				</h:panelGrid>
+				<!-- **************** -->
+
+				<!-- Produtos -->
+				<h:panelGrid columns="3">
+
+					<web:outputTextField id="consulasLabel"
+						value="#{messages['consultar.produtos']}:" required="true"
+						width="120px" align="right" />
+
+					<web:fieldSelectOneMenu id="produtosValores"
+						value="#{consultarUI.filter.produto}" required="true"
+						width="435px">
+
+						<f:selectItems value="#{consultarUI.consultasAssociado}" var="p"
+							itemValue="#{p}"
+							itemLabel="#{p.descricao} .: Custo Operação: R$ #{p.valor}" />
+						<f:converter converterId="produtoConverter" />
+
+					</web:fieldSelectOneMenu>
+
+					<p:message for="produtosValoresText" id="produtosValoresText_message"
+						display="text" redisplay="true" />
+
+				</h:panelGrid>
+				<!-- ************** -->
+
+				<!-- Botões -->
+				<h:panelGrid columns="2">
+
+					<web:outputTextField id="btnIncluirLabel" value=".:"
+						required="false" width="120px" align="right" />
+
+					<web:field for="btnConsultarSearch" mode="1" required="false"
+						addMessage="false">
+
+						<p:commandButton id="btnConsultarSearch"
+							value="#{messages['global.msg.search']}" update="@form"
+							action="#{consultarUI.search}" />
+
+						<p:commandLink id="consultarResetLnk"
+							value="#{messages['global.msg.reset']}"
+							action="#{consultarUI.prepareSearch}" ajax="true" update="@form" />
+
+					</web:field>
+
+				</h:panelGrid>
+				<!-- ************** -->
+
+			</h:panelGrid>
+
+		</fieldset>
+
+		<fieldset id="fieldFiltrosConsultar" style="padding: 10px;">
+
+			<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['global.resultados.fieldset']}</legend>
+
+			<!-- Aba de dados Informados -->
+			<p:panel header="#{messages['consultar.dados.informados']}"
+				rendered="#{not empty consultarUI.rows}" toggleable="true"
+				style="border: 0px">
+
+				<p:panelGrid columns="1">
+
+					<p:message id="consultarDadosInformadosMsg" for="idCpfConsultado" />
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="2"
+					rendered="#{not consultarUI.filter.associadoDisabled}">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.associado']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText id="idCpfConsultado"
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.filter.associado.codigo} - #{consultarUI.filter.associado.razaoSocial}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['consultar.produtos']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.filter.produto.descricao}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{consultarUI.filter.labelCpfPattern}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.bean.contraparte.cpf}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+			</p:panel>
+			<!-- ****************** -->
+
+			<!-- Painel de Ocorrencias -->
+			<p:panel header="#{messages['consultar.resumo.ocorrencias']}"
+				rendered="#{not empty consultarUI.rows}" toggleable="true"
+				style="border: 0px">
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{consultarUI.filter.labelCpfPattern}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.bean.contraparte.cpf}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.contraparte.nome']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.bean.contraparte.nome}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<web:dataTable id="resumo"
+					value="#{consultarUI.consultaOcorrencias}" paginator="false"
+					rows="1000">
+
+					<ui:define name="columns">
+
+						<web:column id="columnOcorrencia"
+							title="#{messages['consultar.ocorrencias.resumo.ocorrencia.header']}"
+							align="center">
+							<h:outputText style="text-align: right; display: block;"
+								value="#{messages[dataTableItem.ocorrencia]}">
+							</h:outputText>
+						</web:column>
+
+						<web:column id="columnQuantidade"
+							title="#{messages['consultar.ocorrencias.resumo.quantidade.header']}"
+							align="center">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.quantidade}">
+							</h:outputText>
+						</web:column>
+
+						<web:column id="columnUltimaOcorrencia"
+							title="#{messages['consultar.ocorrencias.resumo.ultimaocorrencia.header']}"
+							align="center">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.dataUltimaOcorrencia}">
+								<f:convertDateTime pattern="dd/MM/yyyy"
+									locale="#{localeUI.locale}" timeZone="#{timezoneUI.timeZone}" />
+							</h:outputText>
+						</web:column>
+
+						<web:column id="columnValor"
+							title="#{messages['consultar.ocorrencias.resumo.valor.header']}"
+							align="center">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.valorUltimaOcorrencia}">
+								<f:convertNumber locale="#{localeUI.locale}"
+									pattern="R$ ###,###,###.##" />
+							</h:outputText>
+						</web:column>
+
+					</ui:define>
+
+				</web:dataTable>
+
+			</p:panel>
+			<!-- ************** -->
+
+			<!-- ** Painel de Identificação ** -->
+			<p:panel header="#{messages['consultar.identificacao']}"
+				rendered="#{not empty consultarUI.rows}" toggleable="true"
+				style="border: 0px">
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{consultarUI.filter.labelCpfPattern}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.bean.contraparte.cpf}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{consultarUI.situacaoDocumento}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.contraparte.nome']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.bean.contraparte.nome}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.contraparte.datanascimento']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.bean.contraparte.dataNascimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							locale="#{localeUI.locale}" timeZone="#{timezoneUI.timeZone}" />
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.contraparte.nomemae']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.bean.contraparte.nomeMae}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" style="width: 100%; text-align: center;">
+
+					<p:commandButton
+						value="#{messages['consultar.identificacao.informacoes.adicioanis']}"
+						icon="ui-icon-folder-open" />
+
+				</p:panelGrid>
+
+			</p:panel>
+			<!-- ************** -->
+
+			<!-- ** Painel de Endereços ** -->
+			<p:panel header="#{messages['consultar.identificacao']}"
+				rendered="#{not empty consultarUI.rows}" toggleable="true"
+				style="border: 0px">
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.contraparte.endereco.logradouro']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.ultimoContraparteEndereco.logradouro}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="4">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.contraparte.endereco.bairro']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: left; display: block; font-weight: bold; width: 240px;"
+						value="#{consultarUI.ultimoContraparteEndereco.bairro}">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.contraparte.endereco.municipio']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: left; display: block; font-weight: bold; width: 240px;"
+						value="#{consultarUI.ultimoContraparteEndereco.municipio}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="4">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.contraparte.endereco.estado']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: left; display: block; font-weight: bold; width: 240px;"
+						value="#{consultarUI.ultimoContraparteEndereco.estado}">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['restricao.contraparte.endereco.cep']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: left; display: block; font-weight: bold; width: 240px;"
+						value="#{consultarUI.ultimoContraparteEndereco.cep}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" style="width: 100%; text-align: center;">
+
+					<p:commandButton
+						value="#{messages['consultar.identificacao.enderecos.adicioanis']}"
+						icon="ui-icon-folder-open" />
+
+				</p:panelGrid>
+
+			</p:panel>
+			<!-- ************** -->
+
+			<!-- ** Panel dos Registros de Inadimplencia ** -->
+			<p:panel header="#{messages['consultar.registros.inadimplencia']}"
+				rendered="#{not empty consultarUI.rows}" toggleable="true"
+				style="border: 0px">
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['consultas.restricao.registros.inadimplencia.total']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.consultaRestricoes.size()}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<web:dataTable id="restricoes"
+					value="#{consultarUI.consultaRestricoes}" paginator="false"
+					rows="1000">
+
+					<ui:define name="columns">
+
+						<web:column id="columnIndice"
+							title="#{messages['consultar.ocorrencias.restriao.indice.header']}"
+							width="50px" align="center">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.indice}">
+							</h:outputText>
+						</web:column>
+						
+						<web:column id="columnInfo"
+							title="#{messages['consultar.ocorrencias.restriao.restricoes.header']}">
+
+							<p:panelGrid columns="4" styleClass="panelGridConsultaRestricao">
+
+								<h:outputText
+									style="text-align: center; display: block; font-weight: bold;"
+									value="#{messages['consultar.restricao.registros.inadimplencia.data.inclusao.label']}" />
+
+								<h:outputText
+									style="text-align: center; display: block; font-weight: bold;"
+									value="#{messages['consultar.restricao.registros.inadimplencia.data.vencimento.label']}" />
+
+								<h:outputText
+									style="text-align: center; display: block; font-weight: bold;"
+									value="#{messages['consultar.restricao.registros.inadimplencia.contrato.label']}" />
+
+								<h:outputText
+									style="text-align: center; display: block; font-weight: bold;"
+									value="#{messages['consultar.restricao.registros.inadimplencia.credor.label']}" />
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="4" styleClass="panelGridConsultaRestricao">
+								 
+								<h:outputText style="text-align: center; display: block;"
+									value="#{dataTableItem.restricao.dataRestricao}">
+									<f:convertDateTime pattern="dd/MM/yyyy"
+										locale="#{localeUI.locale}" timeZone="#{timezoneUI.timeZone}" />
+								</h:outputText>
+								
+								<h:outputText style="text-align: center; display: block;"
+									value="#{dataTableItem.restricao.dataVencimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy"
+										locale="#{localeUI.locale}" timeZone="#{timezoneUI.timeZone}" />
+								</h:outputText>
+
+								<h:outputText style="text-align: center; display: block;"
+									value="#{dataTableItem.restricao.contrato}" />
+
+								<h:outputText style="text-align: center; display: block;"
+									value="#{dataTableItem.restricao.associado.razaoSocial}" />
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="4" styleClass="panelGridConsultaRestricao">
+
+								<h:outputText
+									style="text-align: center; display: block; font-weight: bold;"
+									value="#{messages['consultar.restricao.registros.inadimplencia.valor.label']}" />
+
+								<h:outputText
+									style="text-align: center; display: block; font-weight: bold;"
+									value="#{messages['consultar.restricao.registros.inadimplencia.tipocredor.label']}" />
+
+								<h:outputText
+									style="text-align: center; display: block; font-weight: bold;"
+									value="#{messages['consultar.restricao.registros.inadimplencia.localidade.label']}" />
+
+								<h:outputText
+									style="text-align: center; display: block; font-weight: bold;"
+									value="#{messages['consultar.restricao.registros.inadimplencia.entidade.label']}" />
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="4" styleClass="panelGridConsultaRestricao">
+								 
+								<h:outputText style="text-align: center; display: block;"
+									value="#{dataTableItem.restricao.valorDebito}">
+									<f:convertNumber locale="#{localeUI.locale}"
+										pattern="R$ ###,###,###.##" />
+								</h:outputText>
+
+								<h:outputText style="text-align: center; display: block;"
+									value="#{dataTableItem.restricao.tipoDevedor}" />
+
+								<h:outputText style="text-align: center; display: block;"
+									value="??" />
+
+								<h:outputText style="text-align: center; display: block;"
+									value="#{dataTableItem.restricao.associado.entidade.razaoSocial}" />
+
+							</p:panelGrid>
+
+						</web:column>
+
+					</ui:define>
+
+				</web:dataTable>
+
+			</p:panel>
+			<!-- ****************** -->
+
+			<!-- Painel de Consultas Realizadas -->
+			<p:panel header="#{messages['consultar.consultas.realizadas']}"
+				rendered="#{not empty consultarUI.rows}" toggleable="true"
+				style="border: 0px">
+
+				<p:message id="consultarConsultasMsg" for="consultasDataTable" />
+
+				<p:panelGrid columns="2">
+
+					<h:outputText
+						style="text-align: right; display: block; width: 120px;"
+						value="#{messages['consultas.restricao.registros.inadimplencia.total']}: &nbsp;">
+					</h:outputText>
+
+					<h:outputText
+						style="text-align: center; display: block; font-weight: bold;"
+						value="#{consultarUI.consultaRealizadas.size()}">
+					</h:outputText>
+
+				</p:panelGrid>
+
+				<web:dataTable id="consultas"
+					value="#{consultarUI.consultaRealizadas}" paginator="false"
+					rows="1000">
+
+					<ui:define name="columns">
+
+						<web:column id="columnDataRealizada"
+							title="#{messages['consultar.consultas.realizadas.dataconsulta.header']}"
+							align="center">
+
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.dataConsulta}">
+
+								<f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss"
+									locale="#{localeUI.locale}" timeZone="#{timezoneUI.timeZone}" />
+
+							</h:outputText>
+
+						</web:column>
+
+						<web:column id="columnCredorRealizada"
+							title="#{messages['consultar.consultas.realizadas.consultante.header']}"
+							align="center">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.credor}">
+							</h:outputText>
+						</web:column>
+
+						<web:column id="columnLocalidadeRealizada"
+							title="#{messages['consultar.consultas.realizadas.localidade.header']}"
+							align="center">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.localidade}">
+							</h:outputText>
+						</web:column>
+
+						<web:column id="columnEntidadeRealizada"
+							title="#{messages['consultar.consultas.realizadas.entidade.header']}"
+							align="center">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.entidade}">
+							</h:outputText>
+						</web:column>
+
+					</ui:define>
+
+				</web:dataTable>
+				
+				<br />
+				<p:panelGrid columns="1" style="width: 100%; text-align: center;">
+
+					<p:commandButton
+						value="#{messages['consultar.consultas.realizadas.periodo.maior']}"
+						icon="ui-icon-folder-open" />
+
+				</p:panelGrid>
+
+			</p:panel>
+			<!-- ****************** -->
+
+		</fieldset>
+
+	</ui:define>
+
+</ui:composition>

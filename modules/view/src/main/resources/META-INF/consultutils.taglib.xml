@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE facelet-taglib PUBLIC "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+                                "facelet-taglib_1_0.dtd">
+<facelet-taglib>
+
+	<namespace>http://www.consult.com.br/jsf/consultutils</namespace>
+	
+	<!-- Default -->
+			
+	<!-- Serviços -->
+	<tag>
+		<tag-name>produto</tag-name>
+		<source>../../../forms/servicos/produtoFrm.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>incluir</tag-name>
+		<source>../../../forms/servicos/incluirFrm.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>consultar</tag-name>
+		<source>../../../forms/servicos/consultarFrm.xhtml</source>
+	</tag>
+			
+	<!-- Sobre -->
+	<tag>
+		<tag-name>sobre</tag-name>
+		<source>../../../forms/sobre/sobreFrm.xhtml</source>
+	</tag>
+	
+		
+</facelet-taglib>
