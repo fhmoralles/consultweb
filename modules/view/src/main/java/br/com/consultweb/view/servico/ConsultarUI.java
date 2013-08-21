@@ -332,7 +332,7 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 					MessageUtil.getMessage("restricao.contraparte.cnpj"));
 		}
 
-		/* Montagem do label de Situalão */
+		/* Montagem do label de Situação */
 		this.setSituacaoDocumento(MessageUtil.getMessage(
 				"consultar.identificacao.situacao.documento", this.getFilter()
 						.getLabelCpfPattern()));

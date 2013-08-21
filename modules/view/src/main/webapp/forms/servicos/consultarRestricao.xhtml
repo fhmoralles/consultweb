@@ -93,7 +93,7 @@
 						value="#{messages['restricao.tipopessoa']}:" required="true"
 						width="120px" align="right" />
 
-					<web:fieldSelectOneMenu id="tipoPessoaValores"
+					<web:fieldSelectOneMenu id="tipoPessoaValoresConsulta"
 						value="#{consultarUI.filter.tipoPessoa}" required="true"
 						width="155px" valueChangeListener="#{consultarUI.changePattern}">
 
@@ -102,7 +102,7 @@
 
 					</web:fieldSelectOneMenu>
 
-					<p:message for="tipoPessoaValoresText"
+					<p:message for="tipoPessoaValoresConsultaText"
 						id="tipoPessoaValores_message" display="text" redisplay="true" />
 
 				</h:panelGrid>

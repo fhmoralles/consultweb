@@ -8,13 +8,13 @@
 	<parent>
 		<groupId>br.com.consultweb</groupId>
 		<artifactId>project</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0.0-ALPHA</version>
 		<relativePath>..</relativePath>
 	</parent>
 
 	<groupId>br.com.consultweb</groupId>
 	<artifactId>view</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0-ALPHA</version>
 	<packaging>war</packaging>
 	
 	<dependencies>
@@ -24,27 +24,27 @@
 		<dependency>
 			<groupId>br.com.projects.utils</groupId>
 			<artifactId>webutils</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0-ALPHA</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>br.com.projects.utils</groupId>
 			<artifactId>libutils</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0-ALPHA</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>br.com.consultweb</groupId>
 			<artifactId>domain</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0-ALPHA</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>br.com.consultweb</groupId>
 			<artifactId>model</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0-ALPHA</version>
 			<scope>provided</scope>
 		</dependency>
 
