@@ -151,8 +151,8 @@ ul h4 {
 	font-size: 3.25em;
 }
 
-#slogan { /* line-height: 160px; */
-	height: 160px;
+#slogan { /* line-height: 160px; 
+	height: 160px; */
 	padding: 5px 0 0 0;
 	position: absolute;
 	right: 45px;

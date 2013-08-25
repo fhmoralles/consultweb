@@ -17,23 +17,19 @@
 
 		<div id="slogan">
 
-			<h:panelGrid columns="2" rendered="#{not identity.loggedIn}">
+			<h:panelGrid columns="1" rendered="#{not identity.loggedIn}">
 				
-				<h:panelGrid columns="1">
-					<h2>
-						#{messages['header.slogan']} 
-					</h2>
-				</h:panelGrid>
+				<h2>
+					#{messages['header.slogan']} 
+				</h2>
 
-				<h:panelGrid columns="1">
-					<h2>
-						<h:form id="headerForm">
-							<p:commandLink id="loginLnk" action="#{loginUI.prepareLogin}" ajax="false"
-								value="#{messages['menu.login']}" />
-						</h:form>
-					</h2>
-				</h:panelGrid>
-				
+				<h2>
+					<h:form id="headerForm">
+						<p:commandLink id="loginLnk" action="#{loginUI.prepareLogin}" ajax="false"
+							value="#{messages['menu.login']}" />
+					</h:form>
+				</h2>
+
 			</h:panelGrid>
 
 			<h:panelGrid columns="1" rendered="#{identity.loggedIn}">
