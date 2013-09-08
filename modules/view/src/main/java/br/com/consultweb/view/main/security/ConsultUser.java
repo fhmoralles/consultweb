@@ -17,10 +17,12 @@ public class ConsultUser extends SimpleUser {
     private Boolean subMenuAssociado;
     private Boolean subMenuContraparte;
     private Boolean subMenuProduto;
+    private Boolean subMenuRamoAtividade;
     private Boolean subMenuRelatoriosCadastros;
     
     /* Permissões de Menus de Serviços */
     private Boolean menuServicos;
+    private Boolean subMenuNaturezaInclusao;
     private Boolean subMenuConsultar;
     private Boolean subMenuIncluir;
     private Boolean subMenuExcluir;
@@ -35,6 +37,7 @@ public class ConsultUser extends SimpleUser {
     /* Permissões de Menus de Auditoria */
     private Boolean menuAuditoria;
     private Boolean subMenuLogAuditoria;
+    private Boolean subMenuProtocolo;
     private Boolean subMenuRelatoriosAuditoria;
 
     /* Permissões de Parametros */
@@ -58,9 +61,11 @@ public class ConsultUser extends SimpleUser {
         this.subMenuAssociado = operadorAdminEntidade;
         this.subMenuContraparte = operadorAdmin;
         this.subMenuProduto = operadorAdmin;
+        this.subMenuRamoAtividade = operadorAdminEntidade;
         this.subMenuRelatoriosCadastros = operadorAdminEntidade;
 
         this.menuServicos = operadorAdminEntidadeAssociado;
+        this.subMenuNaturezaInclusao = operadorAdminEntidade;
         this.subMenuConsultar = (operador.getTipoOperador() == TipoOperador.ASSOCIADO) ? operador.getPerfil().getConsultar() : operadorAdminEntidade;
         this.subMenuIncluir = (operador.getTipoOperador() == TipoOperador.ASSOCIADO) ? operador.getPerfil().getIncluir() : operadorAdminEntidade;
         this.subMenuExcluir = (operador.getTipoOperador() == TipoOperador.ASSOCIADO) ? operador.getPerfil().getExcluir() : operadorAdminEntidade;
@@ -73,6 +78,7 @@ public class ConsultUser extends SimpleUser {
 
         this.menuAuditoria = operadorAdminEntidadeAssociado;
         this.subMenuLogAuditoria = operadorAdminEntidadeAssociado;
+        this.subMenuProtocolo = operadorAdminEntidadeAssociado;
         this.subMenuRelatoriosAuditoria = operadorAdminEntidade;
 
         this.menuParametros = operadorAdminEntidade;
@@ -182,5 +188,18 @@ public class ConsultUser extends SimpleUser {
 	public Boolean getSubMenuRelatoriosParametros() {
 		return subMenuRelatoriosParametros;
 	}
+
+	public Boolean getSubMenuNaturezaInclusao() {
+		return subMenuNaturezaInclusao;
+	}
+
+	public Boolean getSubMenuRamoAtividade() {
+		return subMenuRamoAtividade;
+	}
+
+	public Boolean getSubMenuProtocolo() {
+		return subMenuProtocolo;
+	}
+	
 
 }

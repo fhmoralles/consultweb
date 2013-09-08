@@ -6,6 +6,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.log4j.Logger;
+
 import br.com.consultweb.domain.parametros.Operador;
 import br.com.consultweb.domain.parametros.OperadorDispositivo;
 import br.com.consultweb.domain.parametros.OperadorHorario;
@@ -18,6 +20,8 @@ import br.com.consultweb.repository.parametros.spec.OperadorRepository;
 
 @Stateless(name = "operadorModel")
 public class OperadorModelImpl implements OperadorModel {
+
+	private static final Logger LOG = Logger.getLogger(OperadorModelImpl.class);
 
 	@EJB
 	private OperadorRepository operadorRepository;
@@ -76,8 +80,10 @@ public class OperadorModelImpl implements OperadorModel {
 
 					// Operador está autorizado a entrar através do dispostivo internet
 					dispositivoAutorizado = true;
-
+					
 					// Verificar a senha
+					System.out.println("operadorDispositivo.getSenha(): " + operadorDispositivo.getSenha());
+					LOG.info("operadorDispositivo.getSenha(): " + operadorDispositivo.getSenha());
 					if (!operadorDispositivo.getSenha().equals(senha)) {
 						throw new OperadorSenhaInvalidaException();
 					} else {

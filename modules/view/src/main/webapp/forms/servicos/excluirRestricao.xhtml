@@ -75,7 +75,9 @@
 					</web:fieldInputText>
 
 					<p:commandButton id="associadoSearch" icon="ui-icon-search"
-						disabled="#{exclusaoUI.filter.associadoDisabled}" />
+						disabled="#{exclusaoUI.filter.associadoDisabled}"  process="@this"
+						update="searchAssociadoDialog" actionListener="#{associadoUI.reset}"
+						oncomplete="searchAssociadoDialog.show()" />
 
 					<web:fieldInputText id="associadoRazaoSocial"
 						value="#{exclusaoUI.filter.associado.razaoSocial}"
@@ -119,7 +121,21 @@
 
 			<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['global.resultados.fieldset']}</legend>
 
-			<web:dataTable id="restricoesAssociado"
+			<p:panelGrid columns="2" rendered="#{not empty exclusaoUI.restricoes}">
+
+				<h:outputText 
+					style="text-align: right; display: block; width: 120px;"
+					value="#{messages['global.total.registros']}: &nbsp;">
+				</h:outputText>
+
+				<h:outputText
+					style="text-align: center; display: block; font-weight: bold;"
+					value="#{exclusaoUI.restricoes.size()} #{messages['global.registros.encontrados']}">
+				</h:outputText>
+
+			</p:panelGrid>
+
+			<web:dataTable id="restricoesAssociado" paginator="false"
 				rendered="#{not empty exclusaoUI.restricoes}" value="#{exclusaoUI.restricoes}"
 				rows="1000">
 
@@ -199,6 +215,7 @@
 		</fieldset>
 		<!-- ************** -->
 
+		<!-- Janela de Confirmação de Exclusão -->
 		<p:dialog id="deleteDialog"
 			header="#{web:nvl(deleteMessage,messages['global.msg.confirmar_exclusao'])}"
 			widgetVar="deleteDialog" resizable="false" modal="true">
@@ -247,6 +264,21 @@
 
 			</p:panelGrid>
 			
+			<p:panelGrid columns="2">
+
+				<h:outputText
+					style="text-align: right; display: block; width: 120px;"
+					value="#{messages['restricao.listagem.data.restricao.header']}: &nbsp;">
+				</h:outputText>
+
+				<h:outputText style="text-align: center; display: block; font-weight: bold;"
+					value="#{exclusaoUI.restricaoSelected.dataRestricao}">
+					<f:convertDateTime pattern="dd/MM/yyyy"
+						locale="#{localeUI.locale}" timeZone="#{timezoneUI.timeZone}" />
+				</h:outputText>
+			
+			</p:panelGrid>
+			
 			<center>
 				<p:commandButton value="#{messages['global.yes']}"
 					action="#{exclusaoUI.save}" immediate="true" ajax="true"
@@ -259,6 +291,114 @@
 			</center>
 
 		</p:dialog>
+		<!-- ***************************** -->
+
+		<!-- Janela de Pesquisa de Associado -->
+		<p:dialog id="searchAssociadoDialog"
+			header="#{messages['search.associado.msg']}"
+			widgetVar="searchAssociadoDialog" resizable="false" modal="true">
+
+			<p:ajax event="close" listener="#{exclusaoUI.associadoLocate}" update="@form" />
+
+			<fieldset id="fieldSearchAssociado" style="padding: 10px;">
+
+				<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['global.filtro.fieldset']}</legend>
+
+				<!-- Bloco de Entidade -->
+				<h:panelGrid columns="2">
+
+					<web:outputTextField id="searchAssociadoNomeLabel"
+						value="#{messages['search.associado.msg.fantasia']}:"
+						required="false" width="120px" align="right" />
+
+					<web:fieldInputText id="fieldTextAssociadoSearchNome"
+						value="#{associadoUI.filter.fantasia}" required="true"
+						width="200px" />
+
+				</h:panelGrid>
+				<!-- ************ -->
+
+				<!-- Botões -->
+				<h:panelGrid columns="2">
+
+					<web:outputTextField id="btnAssociadoSearchLabel" value=".:"
+						required="false" width="120px" align="right" />
+
+					<web:field for="btnAssociadoSearch" mode="1" required="false"
+						addMessage="false">
+
+						<p:commandButton id="btnAssociadoSearch"
+							value="#{messages['global.msg.search']}"
+							update="associadosDataTable" process="searchAssociadoDialog"
+							actionListener="#{associadoUI.search}" />
+
+						<!-- <p:commandLink id="btnAssociadoSearchResetLnk"
+							value="#{messages['global.msg.reset']}"
+							action="#{associadoUI.search}" ajax="true" update="searchAssociadoDialog" />  -->
+
+					</web:field>
+
+				</h:panelGrid>
+				<!-- ************** -->
+
+			</fieldset>
+
+			<fieldset id="fieldResultadoAssociado"
+				style="padding: 10px; height: 300px;">
+
+				<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['global.result.fieldset']}</legend>
+
+				<web:dataTable id="associados" value="#{associadoUI.rows}"
+					paginator="true" rows="7" style="width: 900px;" scrollable="false"
+					dynamic="false">
+
+					<ui:define name="columns">
+
+						<web:column id="columnBotaoExcluir" align="center" width="100px">
+
+							<p:commandButton id="selectBtn" process="@this" immediate="true"
+								oncomplete="searchAssociadoDialog.hide();"
+								title="#{messages['global.msg.select']}" icon="ui-icon-check">
+
+								<f:setPropertyActionListener value="#{dataTableItem}"
+									target="#{exclusaoUI.filter.associado}" />
+
+							</p:commandButton>
+
+						</web:column>
+
+						<web:column id="columnCredorRealizada"
+							title="#{messages['search.associado.msg.codigo']}" align="center"
+							width="100px">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.codigo}">
+							</h:outputText>
+						</web:column>
+
+						<web:column id="columnLocalidadeRealizada"
+							title="#{messages['search.associado.msg.razaosocial']}"
+							align="center" width="350px">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.razaoSocial}">
+							</h:outputText>
+						</web:column>
+
+						<web:column id="columnEntidadeRealizada"
+							title="#{messages['search.associado.msg.fantasia']}"
+							align="center" width="350px">
+							<h:outputText style="text-align: center; display: block;"
+								value="#{dataTableItem.fantasia}">
+							</h:outputText>
+						</web:column>
+
+					</ui:define>
+
+				</web:dataTable>
+
+			</fieldset>
+
+		</p:dialog>
+		<!-- ***************************** -->
 
 	</ui:define>
 

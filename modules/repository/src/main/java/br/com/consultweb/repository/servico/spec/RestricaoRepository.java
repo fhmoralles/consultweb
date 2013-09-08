@@ -11,6 +11,6 @@ import br.com.libutils.jpa.Repository;
 @Local
 public interface RestricaoRepository extends Repository<Restricao> {
 
-	List<Restricao> listagemRestricaoAssociado(Integer associadoCodigo, Date dataInicio, Date dataFim);	
+	List<Restricao> listagemRestricaoAssociado(Integer associadoCodigo, Date dataVigencia);	
 	
 }

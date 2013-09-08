@@ -40,7 +40,7 @@ public class ConsultaOcorrenciaRepositoryImpl extends
 		dataInvalida.set(Calendar.YEAR, 1900);
 
 		/* Gerar o ultimo registro de Restricao encontrado */
-		Query query = getEntityManager().createNamedQuery("queryRestricoes");
+		Query query = getEntityManager().createNamedQuery("queryRestricoesVigenteContraparte");
 		query.setParameter("cpf", consultaTipo.getConsulta().getContraparte()
 				.getCpf());
 		query.setParameter("dataInicio", dataInicio.getTime());

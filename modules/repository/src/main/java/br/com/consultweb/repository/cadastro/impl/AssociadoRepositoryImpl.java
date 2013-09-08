@@ -1,10 +1,13 @@
 package br.com.consultweb.repository.cadastro.impl;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -47,6 +50,27 @@ public class AssociadoRepositoryImpl extends
 		
 		return ( (typedQuery.getResultList().size()) == 0 ? null : typedQuery.getResultList().get(0) );
 
+	}
+
+	@Override
+	public List<Associado> getAssociadosPorFantasia(String fantasia) {
+
+		final EntityManager em = getEntityManager();
+		final CriteriaBuilder criteriaBuilder = createCriteriaBuilder();
+		final CriteriaQuery<Associado> criteriaQuery = createCriteriaQuery(criteriaBuilder);
+		final Root<Associado> root = createRoot(criteriaQuery);
+		
+		/* Repository -> Apenas pesquisas as informações no banco de dados */
+		/* Filtro por codigo de Associado */
+		final Path<String> pathFantasia = root.get("fantasia");
+		final Predicate predicateFantasia = criteriaBuilder.like(pathFantasia, fantasia);
+		criteriaQuery.where(predicateFantasia);
+		criteriaQuery.orderBy(criteriaBuilder.asc(root.get("fantasia")));
+		
+		final TypedQuery<Associado> typedQuery = em.createQuery(criteriaQuery);
+		
+		return typedQuery.getResultList();
+		
 	}
 
 	

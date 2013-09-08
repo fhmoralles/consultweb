@@ -7,7 +7,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,8 +32,8 @@ import br.com.consultweb.domain.types.TipoDevedor;
 @SequenceGenerator(name = "identificador", sequenceName = "identificador", allocationSize = 1)
 @NamedQueries(
 	{ 
-		@NamedQuery(name = "queryRestricoes", query = "select r from Restricao r where r.contraparte.cpf = :cpf and r.dataRestricao <= :dataInicio and r.dataVigencia >= :dataFim order by r.id desc"),
-		@NamedQuery(name = "queryRestricoesAssociado", query = "select r from Restricao r where r.associado.codigo = :codigoAssociado and r.dataRestricao <= :dataInicio and r.dataVigencia >= :dataFim")		
+		@NamedQuery(name = "queryRestricoesVigenteContraparte", query = "select r from Restricao r where r.contraparte.cpf = :cpf and r.dataRestricao <= :dataInicio and r.dataVigencia > :dataFim order by r.id desc"),
+		@NamedQuery(name = "queryRestricoesAssociado", query = "select r from Restricao r where r.associado.codigo = :codigoAssociado and r.dataVigencia > :dataVigencia")		
 	}
 )
 public class Restricao implements Serializable {

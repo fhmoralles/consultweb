@@ -46,6 +46,10 @@
 						value="#{messages['menu.cadastros.produto']}"
 						action="#{trocarUI.mudar}" ajax="true" rendered="#{identity.user.subMenuProduto}" />
 
+					<p:menuitem id="menuItemRamoAtividade"
+						value="#{messages['menu.cadastros.ramo']}"
+						action="#{trocarUI.mudar}" ajax="true" rendered="#{identity.user.subMenuRamoAtividade}" />
+
 					<p:separator />
 
 					<p:menuitem id="menuItemRelatoriosCad"
@@ -55,6 +59,10 @@
 				</p:submenu>
 
 				<p:submenu label="#{messages['menu.servicos']}" id="submenuServicos" rendered="#{identity.user.menuServicos}">
+
+					<p:menuitem id="menuItemNaturezaInclusao"
+						value="#{messages['menu.servicos.naturezaInclusao']}"
+						action="#{trocarUI.mudar}" ajax="true" rendered="#{identity.user.subMenuNaturezaInclusao}" />
 
 					<p:menuitem id="menuItemConsultar"
 						value="#{messages['menu.servicos.consultar']}"
@@ -102,6 +110,10 @@
 						value="#{messages['menu.auditoria.logdeauditoria']}"
 						action="#{trocarUI.mudar}" rendered="#{identity.user.subMenuLogAuditoria}" />
 
+					<p:menuitem id="menuItemProtocolo"
+						value="#{messages['menu.auditoria.protocolo']}"
+						action="#{trocarUI.mudar}" rendered="#{identity.user.subMenuProtocolo}" />
+
 					<p:separator />
 
 					<p:menuitem id="menuItemRelatoriosAud"
@@ -136,7 +148,12 @@
 				<p:submenu label="#{messages['menu.sair']}" id="submenuSair">
 
 					<p:menuitem id="menuItemSobre"
-						value="#{messages['menu.sair.sobre']}" action="#{trocarUI.mudar}" />
+						value="#{messages['menu.sair.sobre']}" action="#{sairUI.sobre}" />
+
+					<p:menuitem id="menuItemRelease"
+						value="#{messages['menu.sair.release']}" action="#{sairUI.release}" />
+
+					<p:separator />
 
 					<p:menuitem id="menuItemLogout"
 						value="#{messages['menu.sair.logout']}"

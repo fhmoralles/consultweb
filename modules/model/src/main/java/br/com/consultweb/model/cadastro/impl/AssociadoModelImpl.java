@@ -76,5 +76,10 @@ public class AssociadoModelImpl implements AssociadoModel {
 		return consultas;
 	}
 
+	@Override
+	public List<Associado> getAssociadosPorFantasia(String fantasia) {
+		return associadoRepository.getAssociadosPorFantasia(fantasia);
+	}
+
 	
 }

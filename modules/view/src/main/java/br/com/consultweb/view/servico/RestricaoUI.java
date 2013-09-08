@@ -1,6 +1,7 @@
 package br.com.consultweb.view.servico;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -194,9 +195,10 @@ public class RestricaoUI extends AbstractCRUD<Restricao, RestricaoFilter> {
 
 		}
 
+		DecimalFormat df = new DecimalFormat("###,###,##0.00");
 		this.setMsgCustoOperacaoIncluir(MessageUtil.getMessage(
-				MessagesConstants.MSG_WARN_INCLUIR_RESTRICAO, parametros
-						.getProdutoIncluir().getValor()));
+				MessagesConstants.MSG_WARN_INCLUIR_RESTRICAO,
+				df.format(parametros.getProdutoIncluir().getValor())));
 
 		return INSERIR_RESTRICAO;
 	}
@@ -299,24 +301,42 @@ public class RestricaoUI extends AbstractCRUD<Restricao, RestricaoFilter> {
 			this.getContraparteEndereco().setEstado(this.getEstado());
 			this.getContraparteEndereco().setContraparte(bean.getContraparte());
 
-			ContraparteEndereco aux = bean
-					.getContraparte()
-					.getContraparteEnderecos()
-					.get(bean.getContraparte().getContraparteEnderecos().size() - 1);
+			ContraparteEndereco aux = null;
+			if (this.getBean().getContraparte().getContraparteEnderecos() != null
+					&& bean.getContraparte().getContraparteEnderecos().size() > 0) {
 
-			if (!this.getContraparteEndereco().getCep().equals(aux.getCep())
+				aux = bean
+						.getContraparte()
+						.getContraparteEnderecos()
+						.get(bean.getContraparte().getContraparteEnderecos()
+								.size() - 1);
+			}
+
+			String auxCep = ((aux != null) ? aux.getCep() : StringUtils.EMPTY);
+			String auxLogradouro = ((aux != null) ? aux.getLogradouro()
+					: StringUtils.EMPTY);
+			String auxBairro = ((aux != null) ? aux.getBairro()
+					: StringUtils.EMPTY);
+			String auxMunicipal = ((aux != null) ? aux.getMunicipio()
+					: StringUtils.EMPTY);
+			String auxNumero = ((aux != null) ? aux.getNumero()
+					: StringUtils.EMPTY);
+			Estado auxEstado = ((aux != null) ? aux.getEstado() : null);
+			String auxComplemento = ((aux != null) ? aux.getComplemento()
+					: StringUtils.EMPTY);
+
+			if (!this.getContraparteEndereco().getCep().equals(auxCep)
 					|| !this.getContraparteEndereco().getLogradouro()
-							.equals(aux.getLogradouro())
+							.equals(auxLogradouro)
 					|| !this.getContraparteEndereco().getBairro()
-							.equals(aux.getBairro())
+							.equals(auxBairro)
 					|| !this.getContraparteEndereco().getMunicipio()
-							.equals(aux.getMunicipio())
+							.equals(auxMunicipal)
 					|| !this.getContraparteEndereco().getNumero()
-							.equals(aux.getNumero())
-					|| this.getContraparteEndereco().getEstado() != aux
-							.getEstado()
+							.equals(auxNumero)
+					|| this.getContraparteEndereco().getEstado() != auxEstado
 					|| !this.getContraparteEndereco().getComplemento()
-							.equals(aux.getComplemento())) {
+							.equals(auxComplemento)) {
 
 				bean.getContraparte().getContraparteEnderecos()
 						.add(this.getContraparteEndereco());
@@ -422,23 +442,30 @@ public class RestricaoUI extends AbstractCRUD<Restricao, RestricaoFilter> {
 
 			if (contraparte != null) {
 				this.getBean().setContraparte(contraparte);
-				ContraparteEndereco aux = contraparte.getContraparteEnderecos()
-						.get(contraparte.getContraparteEnderecos().size() - 1);
 
-				this.getContraparteEndereco().setCep(aux.getCep());
-				this.getContraparteEndereco()
-						.setLogradouro(aux.getLogradouro());
-				this.getContraparteEndereco().setBairro(aux.getBairro());
-				this.getContraparteEndereco().setMunicipio(aux.getMunicipio());
-				this.getContraparteEndereco().setNumero(aux.getNumero());
-				this.getContraparteEndereco().setEstado(aux.getEstado());
-				this.getContraparteEndereco().setComplemento(
-						aux.getComplemento());
+				if (contraparte.getContraparteEnderecos() != null
+						&& contraparte.getContraparteEnderecos().size() > 0) {
+					ContraparteEndereco aux = contraparte
+							.getContraparteEnderecos().get(
+									contraparte.getContraparteEnderecos()
+											.size() - 1);
 
-				this.setRgEstado(contraparte.getRgEstado());
-				this.setSexo(contraparte.getSexo());
-				this.setEstadoCivil(contraparte.getEstadoCivil());
-				this.setEstado(contraparteEndereco.getEstado());
+					this.getContraparteEndereco().setCep(aux.getCep());
+					this.getContraparteEndereco().setLogradouro(
+							aux.getLogradouro());
+					this.getContraparteEndereco().setBairro(aux.getBairro());
+					this.getContraparteEndereco().setMunicipio(
+							aux.getMunicipio());
+					this.getContraparteEndereco().setNumero(aux.getNumero());
+					this.getContraparteEndereco().setEstado(aux.getEstado());
+					this.getContraparteEndereco().setComplemento(
+							aux.getComplemento());
+
+					this.setRgEstado(contraparte.getRgEstado());
+					this.setSexo(contraparte.getSexo());
+					this.setEstadoCivil(contraparte.getEstadoCivil());
+					this.setEstado(contraparteEndereco.getEstado());
+				}
 
 			}
 

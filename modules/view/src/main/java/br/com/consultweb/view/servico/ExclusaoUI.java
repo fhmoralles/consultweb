@@ -1,5 +1,6 @@
 package br.com.consultweb.view.servico;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -140,9 +141,10 @@ public class ExclusaoUI extends AbstractCRUD<Exclusao, ExclusaoFilter> {
 
 		}
 
+		DecimalFormat df = new DecimalFormat("###,###,##0.00");
 		this.setMsgCustoOperacaoExcluir(MessageUtil.getMessage(
-				MessagesConstants.MSG_WARN_EXCLUIR_RESTRICAO, parametros
-						.getProdutoExcluir().getValor()));
+				MessagesConstants.MSG_WARN_EXCLUIR_RESTRICAO, df.format(parametros
+						.getProdutoExcluir().getValor())));
 
 		RequestContext.getCurrentInstance().update("contentConsultForm");
 

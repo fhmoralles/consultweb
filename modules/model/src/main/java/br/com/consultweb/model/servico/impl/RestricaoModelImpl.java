@@ -41,7 +41,7 @@ public class RestricaoModelImpl implements RestricaoModel {
 
 	@EJB
 	private ExclusaoModel exclusaoModel;
-	
+
 	@Override
 	public void create(Restricao restricao) {
 		// TODO Auto-generated method stub
@@ -126,9 +126,9 @@ public class RestricaoModelImpl implements RestricaoModel {
 	@Override
 	public List<Restricao> listagemRestricaoAssociado(Integer associadoCodigo) {
 
-		Calendar dataInicio = Calendar.getInstance();
+		Calendar dataVigencia = Calendar.getInstance();
 		return restricaoRepository.listagemRestricaoAssociado(associadoCodigo,
-				dataInicio.getTime(), dataInicio.getTime());
+				dataVigencia.getTime());
 	}
 
 }

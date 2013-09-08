@@ -16,4 +16,6 @@ public interface AssociadoModel extends InterfaceConsultWebModel<Associado> {
 	
 	public List<Produto> getConsultasAssociado(Associado associado);
 	
+	public List<Associado> getAssociadosPorFantasia(String fantasia);
+	
 }

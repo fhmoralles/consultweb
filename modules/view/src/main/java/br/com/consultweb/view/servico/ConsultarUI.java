@@ -1,5 +1,7 @@
 package br.com.consultweb.view.servico;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -170,7 +172,7 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 
 				this.setConsultasAssociado(associadoModel
 						.getConsultasAssociado(this.getFilter().getAssociado()));
-				
+
 			}
 
 		}
@@ -179,7 +181,7 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 				.getMessage(MessagesConstants.MSG_WARN_CONSULTAR_RESTRICAO));
 
 		RequestContext.getCurrentInstance().update("contentConsultForm");
-		
+
 		return SEARCH_CONSULTAR;
 	}
 
@@ -291,17 +293,19 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 			MessageUtil.addComponentWarnMessage(
 					"contentConsultForm_consultasDataTable",
 					MessagesConstants.MSG_WARN_CONSULTAR_CONSULTAS_INFORMADAS);
-			
+
 			/* Protocolo */
 			SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
 			SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm:ss");
-			
+
 			MessageUtil.addGlobalInfoMessage(
-					MessagesConstants.MSG_INFO_PROTOCOLO_GERADO, this.getBean()
-							.getProtocolo().getNumero().toUpperCase(),
-					sdfData.format(this.getBean().getProtocolo().getDataGeracao()),
-					sdfHora.format(this.getBean().getProtocolo().getDataGeracao()));
-			
+					MessagesConstants.MSG_INFO_PROTOCOLO_GERADO,
+					this.getBean().getProtocolo().getNumero().toUpperCase(),
+					sdfData.format(this.getBean().getProtocolo()
+							.getDataGeracao()),
+					sdfHora.format(this.getBean().getProtocolo()
+							.getDataGeracao()));
+
 		} catch (Exception e) {
 
 			LOG.error(e.getMessage(), e);
@@ -341,6 +345,9 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 
 	public void associadoLocate() {
 
+		LOG.info("Associado Locate: "
+				+ this.getFilter().getAssociado().getCodigo() + " - "
+				+ this.getFilter().getAssociado().getEntidade());
 		Associado associado = associadoModel.localizarPorAssociadoEEntidade(
 				this.getFilter().getAssociado().getCodigo(), this.getFilter()
 						.getAssociado().getEntidade());
@@ -380,9 +387,14 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 
 			if (contraparte != null) {
 				this.getFilter().setContraparte(contraparte);
-				this.setUltimoContraparteEndereco(contraparte
-						.getContraparteEnderecos()
-						.get(contraparte.getContraparteEnderecos().size() - 1));
+
+				if (contraparte.getContraparteEnderecos() != null
+						&& contraparte.getContraparteEnderecos().size() > 0) {
+					this.setUltimoContraparteEndereco(contraparte
+							.getContraparteEnderecos().get(
+									contraparte.getContraparteEnderecos()
+											.size() - 1));
+				}
 			}
 
 		} catch (CpfValidationException e) {
@@ -405,7 +417,17 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 
 		}
 
-		
+	}
+
+	public String formatValor(BigDecimal valor) {
+
+		DecimalFormat df = new DecimalFormat("###,###,##0.00");
+		return df.format(valor);
+
+	}
+
+	public void setSelectAssociadoSearch() {
+		System.out.println("Selectionado");
 	}
 
 	public List<TipoPessoa> getTiposPessoa() {

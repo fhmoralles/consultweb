@@ -51,7 +51,7 @@ public class Consulta implements Serializable {
 	@JoinColumn(name = "id_associado", nullable = false, insertable = true, updatable = false)
 	private Associado associado;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.MERGE })
 	@JoinColumn(name = "id_contraparte", nullable = false, insertable = true, updatable = false)
 	private Contraparte contraparte;
 

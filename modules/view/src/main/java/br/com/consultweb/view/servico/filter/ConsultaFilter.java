@@ -50,7 +50,6 @@ public class ConsultaFilter extends AbstractFacesBean implements Filter {
 		
 		this.setCpfPattern(StringUtils.EMPTY);
 		this.setLabelContraparteNome(StringUtils.EMPTY);
-		this.setLabelContraparteNome(StringUtils.EMPTY);
 	}
 
 	@Override

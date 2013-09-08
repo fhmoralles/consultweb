@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-import javax.xml.crypto.Data;
 
 import br.com.consultweb.domain.servico.Restricao;
 import br.com.consultweb.repository.servico.spec.RestricaoRepository;
@@ -22,13 +21,12 @@ public class RestricaoRepositoryImpl extends
 
 	@Override
 	public List<Restricao> listagemRestricaoAssociado(Integer associadoCodigo,
-			Date dataInicio, Date dataFim) {
+			Date dataVigencia) {
 
 		/* Gerar o ultimo registro de Restricao encontrado */
 		Query query = getEntityManager().createNamedQuery("queryRestricoesAssociado");
 		query.setParameter("codigoAssociado", associadoCodigo);
-		query.setParameter("dataInicio", dataInicio);
-		query.setParameter("dataFim", dataFim);
+		query.setParameter("dataVigencia", dataVigencia);
 
 		return query.getResultList();
 	}
