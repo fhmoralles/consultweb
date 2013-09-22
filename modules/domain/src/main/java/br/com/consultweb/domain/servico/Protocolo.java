@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -20,9 +22,19 @@ import javax.persistence.TemporalType;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import br.com.consultweb.domain.types.Dispositivo;
+
 @Entity
 @Table(name = "protocolo")
 @SequenceGenerator(name = "identificador", sequenceName = "identificador", allocationSize = 1)
+@NamedQueries(
+	{ 
+		@NamedQuery(name = "queryProtocoloConsultasDia", query = "select p from Protocolo p where p.consulta is not null and p.dataGeracao between :dataGeracaoInicio and :dataGeracaoFim"),
+		@NamedQuery(name = "queryProtocoloRestricoesDia", query = "select p from Protocolo p where p.restricao is not null and p.dataGeracao between :dataGeracaoInicio and :dataGeracaoFim"),
+		@NamedQuery(name = "queryProtocoloExclusoesDia", query = "select p from Protocolo p where p.exclusao is not null and p.dataGeracao between :dataGeracaoInicio and :dataGeracaoFim"),
+	}
+)
+
 public class Protocolo implements Serializable {
 
 	/**
@@ -57,6 +69,9 @@ public class Protocolo implements Serializable {
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_exclusao", nullable = false, insertable = true, updatable = false)
 	private Exclusao exclusao;
+
+	@Column(name = "dispositivo", nullable = true, insertable = true, updatable = false)
+	private Dispositivo dispositivo;
 	
 	public Long getId() {
 		return id;
@@ -112,6 +127,14 @@ public class Protocolo implements Serializable {
 
 	public void setExclusao(Exclusao exclusao) {
 		this.exclusao = exclusao;
+	}
+
+	public Dispositivo getDispositivo() {
+		return dispositivo;
+	}
+
+	public void setDispositivo(Dispositivo dispositivo) {
+		this.dispositivo = dispositivo;
 	}
 
 	@Override

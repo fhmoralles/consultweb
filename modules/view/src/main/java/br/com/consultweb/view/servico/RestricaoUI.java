@@ -24,6 +24,7 @@ import br.com.consultweb.domain.parametros.Operador;
 import br.com.consultweb.domain.parametros.Parametros;
 import br.com.consultweb.domain.servico.NaturezaInclusao;
 import br.com.consultweb.domain.servico.Restricao;
+import br.com.consultweb.domain.types.Dispositivo;
 import br.com.consultweb.domain.types.Estado;
 import br.com.consultweb.domain.types.EstadoCivil;
 import br.com.consultweb.domain.types.Sexo;
@@ -64,7 +65,6 @@ public class RestricaoUI extends AbstractCRUD<Restricao, RestricaoFilter> {
 	private static final Logger LOG = Logger.getLogger(RestricaoUI.class);
 
 	private static final String INSERIR_RESTRICAO = "/forms/servicos/incluirRestricao.xhtml";
-	private static final String LISTAGEM_RESTRICAO = "/forms/servicos/listagemRestricao.xhtml";
 
 	/* Valores de Domíno */
 	private Operador operador;
@@ -87,6 +87,9 @@ public class RestricaoUI extends AbstractCRUD<Restricao, RestricaoFilter> {
 	private Boolean pfSelectec;
 	private String msgCustoOperacaoIncluir;
 	private String msgCustoOperacaoExcluir;
+
+	/* Dispositivo */
+	private Dispositivo dispositivo;
 
 	/* Informações de Login */
 	@Inject
@@ -182,6 +185,7 @@ public class RestricaoUI extends AbstractCRUD<Restricao, RestricaoFilter> {
 				/* Define se o campo está habilidado */
 				this.setEntidadeDisabled(true);
 				this.setAssociadoDisabled(false);
+				this.setDispositivo(Dispositivo.CALLCENTER);
 
 			} else if (operador.getTipoOperador() == TipoOperador.ASSOCIADO) {
 
@@ -190,6 +194,7 @@ public class RestricaoUI extends AbstractCRUD<Restricao, RestricaoFilter> {
 				/* Define se o campo está habilidado */
 				this.setEntidadeDisabled(true);
 				this.setAssociadoDisabled(true);
+				this.setDispositivo(Dispositivo.INTERNET);
 
 			}
 
@@ -343,7 +348,9 @@ public class RestricaoUI extends AbstractCRUD<Restricao, RestricaoFilter> {
 			}
 
 			/* Envia para o Modelo */
-			Restricao c = restricaoModel.update(bean);
+			LOG.info("Incluir Restricao Model");
+			Restricao c = restricaoModel.incluirRestricao(bean,
+					this.getDispositivo(), this.getOperador());
 
 			SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
 			SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm:ss");
@@ -643,6 +650,20 @@ public class RestricaoUI extends AbstractCRUD<Restricao, RestricaoFilter> {
 
 	public void setMsgCustoOperacaoExcluir(String msgCustoOperacaoExcluir) {
 		this.msgCustoOperacaoExcluir = msgCustoOperacaoExcluir;
+	}
+
+	public Dispositivo getDispositivo() {
+		return dispositivo;
+	}
+
+	public void setDispositivo(Dispositivo dispositivo) {
+		this.dispositivo = dispositivo;
+	}
+
+	@Override
+	protected String getMsgDelete() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -100,11 +100,12 @@
 
 						<p:commandButton id="btnExcluirSearch"
 							value="#{messages['global.msg.search']}" update="@form"
-							action="#{exclusaoUI.search}" />
+							action="#{exclusaoUI.search}"
+							style="margir-left: 5px;" />
 
-						<p:commandLink id="excluirResetLnk"
-							value="#{messages['global.msg.reset']}"
-							action="#{exclusaoUI.prepareSearch}" ajax="true" update="@form" />
+						<p:commandButton id="excluirResetLnk"
+							value="#{messages['global.msg.reset']}" immediate="true"
+							action="#{exclusaoUI.prepareSearch}" update="@form" process="@this" />
 
 					</web:field>
 
@@ -308,7 +309,7 @@
 				<h:panelGrid columns="2">
 
 					<web:outputTextField id="searchAssociadoNomeLabel"
-						value="#{messages['search.associado.msg.fantasia']}:"
+						value="#{messages['label.fantasia']}:"
 						required="false" width="120px" align="right" />
 
 					<web:fieldInputText id="fieldTextAssociadoSearchNome"
@@ -368,7 +369,7 @@
 						</web:column>
 
 						<web:column id="columnCredorRealizada"
-							title="#{messages['search.associado.msg.codigo']}" align="center"
+							title="#{messages['label.codigo']}" align="center"
 							width="100px">
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.codigo}">
@@ -376,7 +377,7 @@
 						</web:column>
 
 						<web:column id="columnLocalidadeRealizada"
-							title="#{messages['search.associado.msg.razaosocial']}"
+							title="#{messages['label.razaosocial']}"
 							align="center" width="350px">
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.razaoSocial}">
@@ -384,7 +385,7 @@
 						</web:column>
 
 						<web:column id="columnEntidadeRealizada"
-							title="#{messages['search.associado.msg.fantasia']}"
+							title="#{messages['label.fantasia']}"
 							align="center" width="350px">
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.fantasia}">

@@ -1,32 +1,38 @@
 package br.com.consultweb.model.servico.impl;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.log4j.Logger;
+
+import br.com.consultweb.domain.parametros.LogOperacao;
+import br.com.consultweb.domain.parametros.Operador;
 import br.com.consultweb.domain.parametros.Parametros;
-import br.com.consultweb.domain.servico.Exclusao;
 import br.com.consultweb.domain.servico.Faturamento;
 import br.com.consultweb.domain.servico.Produto;
 import br.com.consultweb.domain.servico.Protocolo;
 import br.com.consultweb.domain.servico.Restricao;
+import br.com.consultweb.domain.types.Dispositivo;
 import br.com.consultweb.domain.types.SituacaoFaturamento;
 import br.com.consultweb.domain.types.TipoProduto;
 import br.com.consultweb.model.exceptions.RestricaoProdutoIncluirAssociadoException;
+import br.com.consultweb.model.parametros.spec.LogOperacaoModel;
 import br.com.consultweb.model.parametros.spec.ParametrosModel;
-import br.com.consultweb.model.servico.spec.ExclusaoModel;
 import br.com.consultweb.model.servico.spec.FaturamentoModel;
 import br.com.consultweb.model.servico.spec.ProtocoloModel;
 import br.com.consultweb.model.servico.spec.RestricaoModel;
 import br.com.consultweb.repository.servico.spec.RestricaoRepository;
+import br.com.libutils.validation.DateUtil;
 import br.com.libutils.validation.MD5Digest;
 
 @Stateless(name = "restricaoModel")
 public class RestricaoModelImpl implements RestricaoModel {
 
+	private static final Logger LOG = Logger.getLogger(RestricaoModelImpl.class);
+	
 	@EJB
 	private RestricaoRepository restricaoRepository;
 
@@ -40,8 +46,8 @@ public class RestricaoModelImpl implements RestricaoModel {
 	private ProtocoloModel protocoloModel;
 
 	@EJB
-	private ExclusaoModel exclusaoModel;
-
+	private LogOperacaoModel logOperacaoModel;
+	
 	@Override
 	public void create(Restricao restricao) {
 		// TODO Auto-generated method stub
@@ -49,11 +55,10 @@ public class RestricaoModelImpl implements RestricaoModel {
 	}
 
 	@Override
-	public Restricao update(Restricao restricao) throws Exception {
-
+	public Restricao incluirRestricao(Restricao restricao, Dispositivo dispositivo, Operador operador) throws Exception {
+		
 		/* Definir das datas de Inicio e Fim de Vigencia da Restrição */
 		Parametros parametros = parametrosModel.locate();
-		Date dataInclusao = Calendar.getInstance().getTime();
 
 		Calendar dataRestricao = Calendar.getInstance();
 		dataRestricao.add(Calendar.DATE, parametros.getDiasRestricao());
@@ -62,7 +67,7 @@ public class RestricaoModelImpl implements RestricaoModel {
 		dataVigencia.add(Calendar.YEAR, parametros.getAnosVigencia());
 
 		/* Merge Restricao */
-		restricao.setDataInclusao(dataInclusao);
+		restricao.setDataInclusao(DateUtil.now());
 		restricao.setDataRestricao(dataRestricao.getTime());
 		restricao.setDataVigencia(dataVigencia.getTime());
 		restricao = restricaoRepository.update(restricao);
@@ -80,7 +85,7 @@ public class RestricaoModelImpl implements RestricaoModel {
 			throw new RestricaoProdutoIncluirAssociadoException(
 					"msg.error.restricao.produto.incluir.associado");
 		}
-
+		
 		/* Inserir no Faturamento */
 		Faturamento faturamento = new Faturamento();
 		faturamento.setDataFaturamento(restricao.getDataInclusao());
@@ -94,15 +99,30 @@ public class RestricaoModelImpl implements RestricaoModel {
 		Protocolo protocolo = new Protocolo();
 		protocolo.setNumero(MD5Digest.getInstance().generateDigest(
 				String.valueOf(restricao.getDataInclusao().getTime())));
-		protocolo.setDataGeracao(dataInclusao);
+		protocolo.setDataGeracao(DateUtil.now());
 		protocolo.setRestricao(restricao);
 		protocolo.setFaturamento(faturamento);
+		protocolo.setDispositivo(dispositivo);
 		protocolo = protocoloModel.update(protocolo);
 
 		/* Define o protocolo na restricao */
 		restricao.setProtocolo(protocolo);
-
+		
+		/* Inserindo Log */
+		LogOperacao logOperacao = new LogOperacao();
+		logOperacao.setDescricao("Restrição Incluida - Protocolo Id = " + protocolo.getId());
+		logOperacao.setOperacao("INSERIR");
+		logOperacao.setOperador(operador);
+		logOperacao = logOperacaoModel.update(logOperacao);
+		
+		LOG.info("Retornando Restricao - " + restricao.getId());		
 		return restricao;
+	}
+	
+	@Override
+	public Restricao update(Restricao restricao) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

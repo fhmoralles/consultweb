@@ -12,4 +12,6 @@ public interface NaturezaInclusaoRepository extends Repository<NaturezaInclusao>
 	
 	List<NaturezaInclusao> getAll();
 	
+	List<NaturezaInclusao> getNaturezaInclusaoPorDescricao(String descricao);
+	
 }

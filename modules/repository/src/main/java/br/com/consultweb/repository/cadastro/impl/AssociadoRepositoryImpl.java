@@ -38,7 +38,6 @@ public class AssociadoRepositoryImpl extends
 		/* Filtro por codigo de Associado */
 		final Path<Integer> pathCodigoAssociado = root.get("codigo");
 		final Predicate predicateCodigoAssociado = criteriaBuilder.equal(pathCodigoAssociado, codigoAssociado);
-		//criteriaQuery.where(predicateCodigoAssociado);
 
 		/* Filtro por codigo de Entidade */
 		final Path<Entidade> pathEntidade = root.get("entidade");

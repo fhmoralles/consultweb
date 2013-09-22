@@ -75,7 +75,8 @@
 
 					<p:commandButton id="associadoSearch" icon="ui-icon-search"
 						disabled="#{consultarUI.filter.associadoDisabled}" process="@this"
-						update="searchAssociadoDialog" actionListener="#{associadoUI.reset}"
+						update="searchAssociadoDialog"
+						actionListener="#{associadoUI.reset}"
 						oncomplete="searchAssociadoDialog.show()" />
 
 					<web:fieldInputText id="associadoRazaoSocial"
@@ -176,9 +177,10 @@
 							value="#{messages['global.msg.search']}" update="@form"
 							action="#{consultarUI.search}" />
 
-						<p:commandLink id="consultarResetLnk"
+						<p:commandButton id="consultarResetLnk"
 							value="#{messages['global.msg.reset']}"
-							action="#{consultarUI.prepareSearch}" ajax="true" update="@form" />
+							action="#{consultarUI.prepareSearch}" update="@form"
+							process="@this" immediate="true" />
 
 					</web:field>
 
@@ -321,7 +323,7 @@
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.valorUltimaOcorrencia}">
 								<f:convertNumber locale="#{localeUI.locale}"
-									pattern="R$ ###,###,###.##" />
+									pattern="R$ ###,###,##0.00" />
 							</h:outputText>
 						</web:column>
 
@@ -601,7 +603,7 @@
 								<h:outputText style="text-align: center; display: block;"
 									value="#{dataTableItem.restricao.valorDebito}">
 									<f:convertNumber locale="#{localeUI.locale}"
-										pattern="R$ ###,###,###.##" />
+										pattern="R$ ###,###,##0.00" />
 								</h:outputText>
 
 								<h:outputText style="text-align: center; display: block;"
@@ -712,7 +714,8 @@
 			header="#{messages['search.associado.msg']}"
 			widgetVar="searchAssociadoDialog" resizable="false" modal="true">
 
-			<p:ajax event="close" listener="#{consultarUI.associadoLocate}" update="@form" />
+			<p:ajax event="close" listener="#{consultarUI.associadoLocate}"
+				update="@form" />
 
 			<fieldset id="fieldSearchAssociado" style="padding: 10px;">
 
@@ -722,8 +725,8 @@
 				<h:panelGrid columns="2">
 
 					<web:outputTextField id="searchAssociadoNomeLabel"
-						value="#{messages['search.associado.msg.fantasia']}:"
-						required="false" width="120px" align="right" />
+						value="#{messages['label.fantasia']}:" required="false"
+						width="120px" align="right" />
 
 					<web:fieldInputText id="fieldTextAssociadoSearchNome"
 						value="#{associadoUI.filter.fantasia}" required="true"
@@ -782,24 +785,23 @@
 						</web:column>
 
 						<web:column id="columnCredorRealizada"
-							title="#{messages['search.associado.msg.codigo']}" align="center"
-							width="100px">
+							title="#{messages['label.codigo']}" align="center" width="100px">
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.codigo}">
 							</h:outputText>
 						</web:column>
 
 						<web:column id="columnLocalidadeRealizada"
-							title="#{messages['search.associado.msg.razaosocial']}"
-							align="center" width="350px">
+							title="#{messages['label.razaosocial']}" align="center"
+							width="350px">
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.razaoSocial}">
 							</h:outputText>
 						</web:column>
 
 						<web:column id="columnEntidadeRealizada"
-							title="#{messages['search.associado.msg.fantasia']}"
-							align="center" width="350px">
+							title="#{messages['label.fantasia']}" align="center"
+							width="350px">
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.fantasia}">
 							</h:outputText>

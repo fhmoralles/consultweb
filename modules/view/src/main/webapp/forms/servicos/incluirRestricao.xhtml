@@ -13,84 +13,84 @@
 
 	<ui:define name="contentConsult">
 
-		<fieldset id="fieldCustoOperacao" style="padding: 10px; ">
+		<fieldset id="fieldCustoOperacao" style="padding: 10px;">
 
 			<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['global.aviso.fieldset']}</legend>
-			
-			<h:panelGrid  columns="1">
-			
+
+			<h:panelGrid columns="1">
+
 				<web:outputTextField id="msgCustoOperacao"
 					value="#{restricaoUI.msgCustoOperacaoIncluir}" required="false"
 					width="420px" align="left" />
-		
+
 			</h:panelGrid>
-			
-		</fieldset>		
-		
-		<fieldset id="fieldsetEntidade" style="padding: 10px; ">
+
+		</fieldset>
+
+		<fieldset id="fieldsetEntidade" style="padding: 10px;">
 
 			<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['restricao.entidade.fieldset']}</legend>
-			
-			<h:panelGrid  columns="1">
-			
+
+			<h:panelGrid columns="1">
+
 				<!-- Bloco de Entidade -->
 				<h:panelGrid columns="5">
-	
+
 					<web:outputTextField id="entidadeLabel"
 						value="#{messages['restricao.entidade']}:" required="true"
 						width="120px" align="right" />
-	
+
 					<web:fieldInputText id="entidadeCodigo"
 						value="#{restricaoUI.bean.associado.entidade.codigo}"
 						required="true" width="70px"
 						readonly="${restricaoUI.entidadeDisabled}" />
-	
+
 					<p:commandButton id="entidadeSearch" icon="ui-icon-search"
 						disabled="${restricaoUI.entidadeDisabled}" />
-	
+
 					<web:fieldInputText id="entidadeRazaoSocial"
 						value="#{restricaoUI.bean.associado.entidade.razaoSocial}"
-						required="false" width="310px"
-						readonly="true" />
-	
+						required="false" width="310px" readonly="true" />
+
 					<p:message for="entidadeCodigoText" id="entidadeCodigo_message"
 						display="text" redisplay="true" />
-	
+
 				</h:panelGrid>
 				<!-- ************ -->
 
 				<!-- Bloco de Associado -->
 				<h:panelGrid columns="5">
-	
+
 					<web:outputTextField id="associadoLabel"
 						value="#{messages['restricao.associado']}:" required="true"
 						width="120px" align="right" />
-	
+
 					<web:fieldInputText id="associadoCodigo"
 						value="#{restricaoUI.bean.associado.codigo}" required="true"
 						width="70px" readonly="${restricaoUI.associadoDisabled}">
-	
+
 						<p:ajax listener="#{restricaoUI.associadoLocate}" update="@form" />
-	
+
 					</web:fieldInputText>
-	
+
 					<p:commandButton id="associadoSearch" icon="ui-icon-search"
-						disabled="#{restricaoUI.associadoDisabled}"  process="@this"
-						update="searchAssociadoDialog" actionListener="#{associadoUI.reset}"
+						disabled="#{restricaoUI.associadoDisabled}" process="@this"
+						update="searchAssociadoDialog"
+						actionListener="#{associadoUI.reset}"
 						oncomplete="searchAssociadoDialog.show()" />
-	
+
 					<web:fieldInputText id="associadoRazaoSocial"
 						value="#{restricaoUI.bean.associado.razaoSocial}" required="false"
 						width="310px" readonly="true" />
-	
+
 					<p:message for="associadoCodigoText" id="associadoCodigo_message"
 						display="text" redisplay="true" />
-	
+
 				</h:panelGrid>
 				<!-- ************** -->
 
 			</h:panelGrid>
-					
+
 		</fieldset>
 
 		<fieldset id="fieldsetContraparte" style="padding: 10px">
@@ -113,8 +113,8 @@
 
 				</web:fieldSelectOneMenu>
 
-				<p:message for="tipoPessoaValoresText" id="tipoPessoaValores_message"
-					display="text" redisplay="true" />
+				<p:message for="tipoPessoaValoresText"
+					id="tipoPessoaValores_message" display="text" redisplay="true" />
 
 			</h:panelGrid>
 			<!-- ************** -->
@@ -148,7 +148,7 @@
 
 			</h:panelGrid>
 			<!-- **************** -->
-			
+
 			<!-- Dados de Nome -->
 			<h:panelGrid columns="2">
 
@@ -161,7 +161,7 @@
 					width="430px" />
 
 			</h:panelGrid>
-		
+
 			<h:panelGrid columns="4" rendered="#{restricaoUI.pfSelectec}">
 
 				<web:outputTextField id="contraparteRgLabel"
@@ -173,8 +173,8 @@
 					width="145px" />
 
 				<web:outputTextField id="contraparteEstadoRgValoresLabel"
-					value="#{messages['restricao.contraparte.rgestado']}:" required="false"
-					width="130px" align="right" />
+					value="#{messages['restricao.contraparte.rgestado']}:"
+					required="false" width="130px" align="right" />
 
 				<web:fieldSelectOneMenu id="contraparteEstadoRgValores"
 					value="#{restricaoUI.rgEstado}" required="false" width="150px">
@@ -188,8 +188,8 @@
 			<h:panelGrid columns="2" rendered="#{not restricaoUI.pfSelectec}">
 
 				<web:outputTextField id="contraparteNomeComercialLabel"
-					value="#{messages['restricao.contraparte.nomecomercial']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.nomecomercial']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldInputText id="contraparteNomeComercial"
 					value="#{restricaoUI.bean.contraparte.nomeComercial}"
@@ -200,8 +200,8 @@
 			<h:panelGrid columns="4" rendered="#{restricaoUI.pfSelectec}">
 
 				<web:outputTextField id="contraparteNascimentoLabel"
-					value="#{messages['restricao.contraparte.datanascimento']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.datanascimento']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldCalendar id="contraparteNascimento"
 					value="#{restricaoUI.bean.contraparte.dataNascimento}"
@@ -223,32 +223,32 @@
 			<h:panelGrid columns="2" rendered="#{restricaoUI.pfSelectec}">
 
 				<web:outputTextField id="contraparteNomePaiLabel"
-					value="#{messages['restricao.contraparte.nomepai']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.nomepai']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldInputText id="contraparteNomePai"
-					value="#{restricaoUI.bean.contraparte.nomePai}"
-					required="false" width="430px" />
+					value="#{restricaoUI.bean.contraparte.nomePai}" required="false"
+					width="430px" />
 
 			</h:panelGrid>
 
 			<h:panelGrid columns="2" rendered="#{restricaoUI.pfSelectec}">
 
 				<web:outputTextField id="contraparteNomeMaeLabel"
-					value="#{messages['restricao.contraparte.nomemae']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.nomemae']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldInputText id="contraparteNomeMae"
-					value="#{restricaoUI.bean.contraparte.nomeMae}"
-					required="false" width="430px" />
+					value="#{restricaoUI.bean.contraparte.nomeMae}" required="false"
+					width="430px" />
 
 			</h:panelGrid>
 
 			<h:panelGrid columns="2" rendered="#{restricaoUI.pfSelectec}">
 
 				<web:outputTextField id="contraparteEmailLabel"
-					value="#{messages['restricao.contraparte.email']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.email']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldInputText id="contraparteEmail"
 					value="#{restricaoUI.bean.contraparte.eMail}" required="false"
@@ -259,16 +259,16 @@
 			<h:panelGrid columns="4" rendered="#{restricaoUI.pfSelectec}">
 
 				<web:outputTextField id="contraparteTelefoneLabel"
-					value="#{messages['restricao.contraparte.endereco.telefone']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.endereco.telefone']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldMask id="contraparteTelefone"
-					value="#{restricaoUI.bean.contraparte.telefone}"
-					required="false" width="145px" maxlength="9" mask="(99)9999-9999" />
+					value="#{restricaoUI.bean.contraparte.telefone}" required="false"
+					width="145px" maxlength="9" mask="(99)9999-9999" />
 
 				<web:outputTextField id="contraparteEstadoCivilValoresLabel"
-					value="#{messages['restricao.contraparte.estadocivil']}:" required="false"
-					width="130px" align="right" />
+					value="#{messages['restricao.contraparte.estadocivil']}:"
+					required="false" width="130px" align="right" />
 
 				<web:fieldSelectOneMenu id="contraparteEstadoCivilValores"
 					value="#{restricaoUI.estadoCivil}" required="false" width="150px">
@@ -278,8 +278,8 @@
 				</web:fieldSelectOneMenu>
 
 			</h:panelGrid>
-		
-		</fieldset>	
+
+		</fieldset>
 
 		<fieldset id="fieldsetContraparteEnd" style="padding: 10px">
 
@@ -288,8 +288,8 @@
 			<h:panelGrid columns="2">
 
 				<web:outputTextField id="contraparteCepLabel"
-					value="#{messages['restricao.contraparte.endereco.cep']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.endereco.cep']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldMask id="contraparteCep"
 					value="#{restricaoUI.contraparteEndereco.cep}" required="false"
@@ -300,8 +300,8 @@
 			<h:panelGrid columns="2">
 
 				<web:outputTextField id="contraparteLogrLabel"
-					value="#{messages['restricao.contraparte.endereco.logradouro']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.endereco.logradouro']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldInputText id="contraparteLogr"
 					value="#{restricaoUI.contraparteEndereco.logradouro}"
@@ -312,16 +312,16 @@
 			<h:panelGrid columns="4">
 
 				<web:outputTextField id="contraparteBairroLabel"
-					value="#{messages['restricao.contraparte.endereco.bairro']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.endereco.bairro']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldInputText id="contraparteBairro"
 					value="#{restricaoUI.contraparteEndereco.bairro}" required="false"
 					width="145px" />
 
 				<web:outputTextField id="contraparteNumeroLabel"
-					value="#{messages['restricao.contraparte.endereco.numero']}:" required="false"
-					width="130px" align="right" />
+					value="#{messages['restricao.contraparte.endereco.numero']}:"
+					required="false" width="130px" align="right" />
 
 				<web:fieldInputText id="contraparteNumero"
 					value="#{restricaoUI.contraparteEndereco.numero}" required="false"
@@ -332,16 +332,16 @@
 			<h:panelGrid columns="4">
 
 				<web:outputTextField id="contraparteMunicipioLabel"
-					value="#{messages['restricao.contraparte.endereco.municipio']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.endereco.municipio']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldInputText id="contraparteMunicipio"
 					value="#{restricaoUI.contraparteEndereco.municipio}"
 					required="false" width="145px" />
 
 				<web:outputTextField id="contraparteEstadoMunicipioValoresLabel"
-					value="#{messages['restricao.contraparte.endereco.estado']}:" required="false"
-					width="130px" align="right" />
+					value="#{messages['restricao.contraparte.endereco.estado']}:"
+					required="false" width="130px" align="right" />
 
 				<web:fieldSelectOneMenu id="contraparteEstadoMunicipioValores"
 					value="#{restricaoUI.estado}" required="false" width="150px">
@@ -355,174 +355,178 @@
 			<h:panelGrid columns="4">
 
 				<web:outputTextField id="contraparteComplLabel"
-					value="#{messages['restricao.contraparte.endereco.complemento']}:" required="false"
-					width="120px" align="right" />
+					value="#{messages['restricao.contraparte.endereco.complemento']}:"
+					required="false" width="120px" align="right" />
 
 				<web:fieldInputText id="contraparteCompl"
 					value="#{restricaoUI.contraparteEndereco.complemento}"
 					required="false" width="145px" />
 
-				<web:outputTextField id="cendComtraparteLabel"
-					value=".:" required="false"
-					width="130px" align="right" />
+				<web:outputTextField id="cendComtraparteLabel" value=".:"
+					required="false" width="130px" align="right" />
 
-				<p:commandButton id="endComtraparte" icon="ui-icon-search" value="#{messages['restricao.contraparte.cep.outrosend']}" style="width: 150px;" />
+				<p:commandButton id="endComtraparte" icon="ui-icon-search"
+					value="#{messages['restricao.contraparte.cep.outrosend']}"
+					style="width: 150px;" />
 
 			</h:panelGrid>
 
 
 		</fieldset>
-			
+
 		<fieldset id="fieldsetRestricao" style="padding: 10px">
 
 			<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['restricao.dados.fieldset']}</legend>
-			
+
 			<!-- Bloco da Data de Vencimento -->
 			<h:panelGrid columns="3">
-	
+
 				<web:outputTextField id="dataVencimentoLabel"
 					value="#{messages['restricao.datavencimento']}:" required="true"
 					width="120px" align="right" />
-	
+
 				<web:fieldCalendar id="dataVencimento"
 					value="#{restricaoUI.bean.dataVencimento}" required="true"
 					size="15" />
 
 				<p:message for="dataVencimentoText" id="dataVencimento_message"
 					display="text" redisplay="true" />
-	
+
 			</h:panelGrid>
-			<!-- *************** -->			
-			
+			<!-- *************** -->
+
 			<!-- Bloco da Data de Compra -->
 			<h:panelGrid columns="4">
-	
+
 				<web:outputTextField id="dataCompraLabel"
 					value="#{messages['restricao.datacompra']}:" required="true"
 					width="120px" align="right" />
-	
+
 				<web:fieldCalendar id="dataCompra"
-					value="#{restricaoUI.bean.dataCompra}" required="true"
-					size="15" />
-	
+					value="#{restricaoUI.bean.dataCompra}" required="true" size="15" />
+
 				<p:message for="dataCompraText" id="dataCompra_message"
 					display="text" redisplay="true" />
 
 			</h:panelGrid>
-			<!-- *************** -->			
-			
+			<!-- *************** -->
+
 			<!-- Tipo Devedor -->
 			<h:panelGrid columns="3">
-	
+
 				<web:outputTextField id="tipoDevedorLabel"
 					value="#{messages['restricao.tipodevedor']}:" required="true"
 					width="120px" align="right" />
-	
+
 				<web:fieldSelectOneMenu id="tipoDevedorValores"
 					value="#{restricaoUI.tipoDevedor}" required="true" width="155px">
-	
+
 					<f:selectItems value="#{restricaoUI.tiposDevedor}" var="dev"
 						itemValue="#{dev}" itemLabel="#{dev}" />
-	
+
 				</web:fieldSelectOneMenu>
-	
-				<p:message for="tipoDevedorValoresText" id="tipoDevedorValores_message"
-					display="text" redisplay="true" />
+
+				<p:message for="tipoDevedorValoresText"
+					id="tipoDevedorValores_message" display="text" redisplay="true" />
 
 			</h:panelGrid>
 			<!-- ************** -->
-			
+
 			<!-- Contato -->
 			<h:panelGrid columns="3">
-	
+
 				<web:outputTextField id="contratoLabel"
 					value="#{messages['restricao.contrato']}:" required="true"
 					width="120px" align="right" />
-	
-				<web:fieldInputText id="contrato"
-					value="#{restricaoUI.bean.contrato}" required="true"
-					width="145px" />
 
-				<p:message for="contratoText" id="contrato_message"
-					display="text" redisplay="true" />
-	
+				<web:fieldInputText id="contrato"
+					value="#{restricaoUI.bean.contrato}" required="true" width="145px" />
+
+				<p:message for="contratoText" id="contrato_message" display="text"
+					redisplay="true" />
+
 			</h:panelGrid>
 			<!-- ************** -->
-			
+
 			<!-- Valor Debigo -->
 			<h:panelGrid columns="3">
-	
+
 				<web:outputTextField id="valorDebitoLabel"
 					value="#{messages['restricao.valordebito']}:" required="true"
 					width="120px" align="right" />
-	
+
 				<web:fieldInputCurrency id="valorDebito"
 					value="#{restricaoUI.bean.valorDebito}" required="true"
 					width="145px" />
-	
+
 				<p:message for="valorDebitoText" id="valorDebito_message"
 					display="text" redisplay="true" />
 
 			</h:panelGrid>
 			<!-- ************** -->
-			
-			<!-- Natureza Inclusao -->		
+
+			<!-- Natureza Inclusao -->
 			<h:panelGrid columns="3">
-	
+
 				<web:outputTextField id="naturezaInclusaoLabel"
 					value="#{messages['restricao.naturezainclusao']}:" required="true"
 					width="120px" align="right" />
-	
+
 				<web:fieldSelectOneMenu id="naturezasInclusaoValores"
 					value="#{restricaoUI.bean.naturezaInclusao}" required="true"
 					width="440px">
-	
+
 					<f:selectItems value="#{restricaoUI.naturezasInclusao}" var="ni"
 						itemValue="#{ni}" itemLabel="#{ni.descricao}" />
 					<f:converter converterId="naturezaInclusaoConverter" />
-	
+
 				</web:fieldSelectOneMenu>
-	
-				<p:message for="naturezasInclusaoValoresText" id="naturezasInclusaoValores_message"
-					display="text" redisplay="true" />
+
+				<p:message for="naturezasInclusaoValoresText"
+					id="naturezasInclusaoValores_message" display="text"
+					redisplay="true" />
 
 			</h:panelGrid>
 			<!-- ************** -->
-		
+
 		</fieldset>
 
 		<fieldset id="fieldsetRestricao" style="padding: 10px">
 
 			<legend style="font-weight: bold; font-size: 16px; width: auto;">#{messages['restricao.send.fieldset']}</legend>
-		
+
 			<h:panelGrid columns="2">
-			
-				<web:outputTextField id="btnIncluirLabel"
-					value=".:" required="false" width="120px"
-					align="right" />
-			
+
+				<web:outputTextField id="btnIncluirLabel" value=".:"
+					required="false" width="120px" align="right" />
+
 				<web:field for="btnIncluir" mode="1" required="false"
 					addMessage="false">
 
-					<p:commandButton id="btnIncluir" value="#{messages['restricao.incluir']}" update="@form"
-						action="#{restricaoUI.save}" onclick="document.getElementById('contentConsultForm_associadoCodigoText').focus()" />
+					<p:commandButton id="btnIncluir"
+						value="#{messages['restricao.incluir']}" update="@form"
+						action="#{restricaoUI.save}"
+						onclick="document.getElementById('contentConsultForm_associadoCodigoText').focus()"
+						style="margin-left: 5px;" />
 
-					<p:commandLink id="resetLnk"
-						value="#{messages['restricao.reset']}"
-						action="#{restricaoUI.prepareCreate}" ajax="true" />
+					<p:commandButton id="btnReset"
+						value="#{messages['restricao.reset']}" update="@form"
+						process="@this" action="#{restricaoUI.prepareCreate}"
+						immediate="true" />
 
 				</web:field>
-				
+
 			</h:panelGrid>
-		
+
 		</fieldset>
-					
+
 		<!-- Janela de Pesquisa de Associado -->
 		<p:dialog id="searchAssociadoDialog"
 			header="#{messages['search.associado.msg']}"
 			widgetVar="searchAssociadoDialog" resizable="false" modal="true">
 
-			<p:ajax event="close" listener="#{restricaoUI.associadoLocate}" update="@form" />
+			<p:ajax event="close" listener="#{restricaoUI.associadoLocate}"
+				update="@form" />
 
 			<fieldset id="fieldSearchAssociado" style="padding: 10px;">
 
@@ -532,8 +536,8 @@
 				<h:panelGrid columns="2">
 
 					<web:outputTextField id="searchAssociadoNomeLabel"
-						value="#{messages['search.associado.msg.fantasia']}:"
-						required="false" width="120px" align="right" />
+						value="#{messages['label.fantasia']}:" required="false"
+						width="120px" align="right" />
 
 					<web:fieldInputText id="fieldTextAssociadoSearchNome"
 						value="#{associadoUI.filter.fantasia}" required="true"
@@ -592,24 +596,23 @@
 						</web:column>
 
 						<web:column id="columnCredorRealizada"
-							title="#{messages['search.associado.msg.codigo']}" align="center"
-							width="100px">
+							title="#{messages['label.codigo']}" align="center" width="100px">
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.codigo}">
 							</h:outputText>
 						</web:column>
 
 						<web:column id="columnLocalidadeRealizada"
-							title="#{messages['search.associado.msg.razaosocial']}"
-							align="center" width="350px">
+							title="#{messages['label.razaosocial']}" align="center"
+							width="350px">
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.razaoSocial}">
 							</h:outputText>
 						</web:column>
 
 						<web:column id="columnEntidadeRealizada"
-							title="#{messages['search.associado.msg.fantasia']}"
-							align="center" width="350px">
+							title="#{messages['label.fantasia']}" align="center"
+							width="350px">
 							<h:outputText style="text-align: center; display: block;"
 								value="#{dataTableItem.fantasia}">
 							</h:outputText>
@@ -623,7 +626,7 @@
 
 		</p:dialog>
 		<!-- ***************************** -->
-					
+
 	</ui:define>
 
 </ui:composition>

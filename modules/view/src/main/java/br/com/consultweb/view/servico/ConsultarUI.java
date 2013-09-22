@@ -29,6 +29,7 @@ import br.com.consultweb.domain.servico.consulta.ConsultaOcorrencia;
 import br.com.consultweb.domain.servico.consulta.ConsultaRealizada;
 import br.com.consultweb.domain.servico.consulta.ConsultaRestricao;
 import br.com.consultweb.domain.servico.consulta.ConsultaTipo;
+import br.com.consultweb.domain.types.Dispositivo;
 import br.com.consultweb.domain.types.TipoOperador;
 import br.com.consultweb.domain.types.TipoPessoa;
 import br.com.consultweb.model.cadastro.spec.AssociadoModel;
@@ -63,6 +64,8 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 	private Identity identity;
 
 	/* Valores de Domíno */
+	private Operador operador;
+	
 	private String msgCusstoOperacao;
 	private String situacaoDocumento;
 
@@ -72,6 +75,9 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 	private List<ConsultaRestricao> consultaRestricoes;
 	private List<ConsultaRealizada> consultaRealizadas;
 
+	/* Dispositivo */
+	private Dispositivo dispositivo;
+	
 	/* Modelo */
 	@Inject
 	private AssociadoModel associadoModel;
@@ -146,6 +152,7 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 
 			ConsultUser consultUser = (ConsultUser) identity.getUser();
 			Operador operador = consultUser.getOperador();
+			this.setOperador(operador);
 
 			/* Regras para preenchimento */
 			/*
@@ -161,6 +168,7 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 				/* Define se o campo está habilidado */
 				this.getFilter().setEntidadeDisabled(true);
 				this.getFilter().setAssociadoDisabled(false);
+				this.setDispositivo(Dispositivo.CALLCENTER);
 
 			} else if (operador.getTipoOperador() == TipoOperador.ASSOCIADO) {
 
@@ -169,6 +177,7 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 				/* Define se o campo está habilidado */
 				this.getFilter().setEntidadeDisabled(true);
 				this.getFilter().setAssociadoDisabled(true);
+				this.setDispositivo(Dispositivo.INTERNET);
 
 				this.setConsultasAssociado(associadoModel
 						.getConsultasAssociado(this.getFilter().getAssociado()));
@@ -253,7 +262,7 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 
 			/* Define a Consulta com as informaões consultadas */
 			this.setBean(consultaModel.gerarConsulta(this.getBean(), this
-					.getFilter().getProduto()));
+					.getFilter().getProduto(), this.getDispositivo(), this.getOperador()));
 
 			/* Define as abas e preenche as tabelas */
 			/*
@@ -494,4 +503,27 @@ public class ConsultarUI extends AbstractCRUD<Consulta, ConsultaFilter> {
 		this.ultimoContraparteEndereco = ultimoContraparteEndereco;
 	}
 
+	public Dispositivo getDispositivo() {
+		return dispositivo;
+	}
+
+	public void setDispositivo(Dispositivo dispositivo) {
+		this.dispositivo = dispositivo;
+	}
+
+	public Operador getOperador() {
+		return operador;
+	}
+
+	public void setOperador(Operador operador) {
+		this.operador = operador;
+	}
+
+	@Override
+	protected String getMsgDelete() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
+

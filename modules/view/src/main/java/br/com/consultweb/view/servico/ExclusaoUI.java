@@ -21,6 +21,7 @@ import br.com.consultweb.domain.parametros.Operador;
 import br.com.consultweb.domain.parametros.Parametros;
 import br.com.consultweb.domain.servico.Exclusao;
 import br.com.consultweb.domain.servico.Restricao;
+import br.com.consultweb.domain.types.Dispositivo;
 import br.com.consultweb.domain.types.TipoOperador;
 import br.com.consultweb.model.cadastro.spec.AssociadoModel;
 import br.com.consultweb.model.parametros.spec.ParametrosModel;
@@ -47,10 +48,14 @@ public class ExclusaoUI extends AbstractCRUD<Exclusao, ExclusaoFilter> {
 	private static final String EXCLUIR_RESTRICAO = "/forms/servicos/excluirRestricao.xhtml";
 
 	/* Padrão */
+	private Operador operador;
 	private String msgCustoOperacaoExcluir;
 
 	private Restricao restricaoSelected;
 	private List<Restricao> restricoes;
+
+	/* Dispositivo */
+	private Dispositivo dispositivo;
 
 	/* Informações de Login */
 	@Inject
@@ -113,6 +118,7 @@ public class ExclusaoUI extends AbstractCRUD<Exclusao, ExclusaoFilter> {
 
 			ConsultUser consultUser = (ConsultUser) identity.getUser();
 			Operador operador = consultUser.getOperador();
+			this.setOperador(operador);
 
 			/* Regras para preenchimento */
 			/*
@@ -128,6 +134,7 @@ public class ExclusaoUI extends AbstractCRUD<Exclusao, ExclusaoFilter> {
 				/* Define se o campo está habilidado */
 				this.getFilter().setEntidadeDisabled(true);
 				this.getFilter().setAssociadoDisabled(false);
+				this.setDispositivo(Dispositivo.CALLCENTER);
 
 			} else if (operador.getTipoOperador() == TipoOperador.ASSOCIADO) {
 
@@ -136,6 +143,7 @@ public class ExclusaoUI extends AbstractCRUD<Exclusao, ExclusaoFilter> {
 				/* Define se o campo está habilidado */
 				this.getFilter().setEntidadeDisabled(true);
 				this.getFilter().setAssociadoDisabled(true);
+				this.setDispositivo(Dispositivo.INTERNET);
 
 			}
 
@@ -143,8 +151,8 @@ public class ExclusaoUI extends AbstractCRUD<Exclusao, ExclusaoFilter> {
 
 		DecimalFormat df = new DecimalFormat("###,###,##0.00");
 		this.setMsgCustoOperacaoExcluir(MessageUtil.getMessage(
-				MessagesConstants.MSG_WARN_EXCLUIR_RESTRICAO, df.format(parametros
-						.getProdutoExcluir().getValor())));
+				MessagesConstants.MSG_WARN_EXCLUIR_RESTRICAO,
+				df.format(parametros.getProdutoExcluir().getValor())));
 
 		RequestContext.getCurrentInstance().update("contentConsultForm");
 
@@ -209,7 +217,8 @@ public class ExclusaoUI extends AbstractCRUD<Exclusao, ExclusaoFilter> {
 					.getContraparte());
 			exclusao.setDataExclusao(Calendar.getInstance().getTime());
 			exclusao.setRestricao(this.getRestricaoSelected());
-			exclusao = exclusaoModel.update(exclusao);
+			exclusao = exclusaoModel.excluirRestricao(exclusao,
+					this.getDispositivo(), this.getOperador());
 
 			SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
 			SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm:ss");
@@ -302,6 +311,28 @@ public class ExclusaoUI extends AbstractCRUD<Exclusao, ExclusaoFilter> {
 
 	public void setRestricaoSelected(Restricao restricaoSelected) {
 		this.restricaoSelected = restricaoSelected;
+	}
+
+	public Operador getOperador() {
+		return operador;
+	}
+
+	public void setOperador(Operador operador) {
+		this.operador = operador;
+	}
+
+	public Dispositivo getDispositivo() {
+		return dispositivo;
+	}
+
+	public void setDispositivo(Dispositivo dispositivo) {
+		this.dispositivo = dispositivo;
+	}
+
+	@Override
+	protected String getMsgDelete() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

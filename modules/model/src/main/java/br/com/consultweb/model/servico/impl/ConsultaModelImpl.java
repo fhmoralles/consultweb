@@ -6,6 +6,8 @@ import java.util.Calendar;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import br.com.consultweb.domain.parametros.LogOperacao;
+import br.com.consultweb.domain.parametros.Operador;
 import br.com.consultweb.domain.servico.Consulta;
 import br.com.consultweb.domain.servico.Faturamento;
 import br.com.consultweb.domain.servico.Produto;
@@ -15,7 +17,9 @@ import br.com.consultweb.domain.servico.consulta.ConsultaOcorrencia;
 import br.com.consultweb.domain.servico.consulta.ConsultaRealizada;
 import br.com.consultweb.domain.servico.consulta.ConsultaRestricao;
 import br.com.consultweb.domain.servico.consulta.ConsultaTipo;
+import br.com.consultweb.domain.types.Dispositivo;
 import br.com.consultweb.domain.types.SituacaoFaturamento;
+import br.com.consultweb.model.parametros.spec.LogOperacaoModel;
 import br.com.consultweb.model.servico.spec.ConsultaModel;
 import br.com.consultweb.model.servico.spec.FaturamentoModel;
 import br.com.consultweb.model.servico.spec.ProdutoModel;
@@ -50,6 +54,9 @@ public class ConsultaModelImpl implements ConsultaModel {
 	@EJB
 	private ProtocoloModel protocoloModel;
 	
+	@EJB
+	private LogOperacaoModel logOperacaoModel;
+	
 	@Override
 	public void create(Consulta consulta) {
 		// TODO Auto-generated method stub
@@ -81,7 +88,7 @@ public class ConsultaModelImpl implements ConsultaModel {
 	}
 
 	@Override
-	public Consulta gerarConsulta(Consulta consulta, Produto produto) throws Exception {
+	public Consulta gerarConsulta(Consulta consulta, Produto produto, Dispositivo dispositivo, Operador operador) throws Exception {
 
 		/*
 		 * Verificar quais as consulta do Produto e gerar os insumos
@@ -151,10 +158,18 @@ public class ConsultaModelImpl implements ConsultaModel {
 			protocolo.setDataGeracao(consulta.getDataConsulta());
 			protocolo.setConsulta(consulta);
 			protocolo.setFaturamento(faturamento);
+			protocolo.setDispositivo(dispositivo);
 			protocolo = protocoloModel.update(protocolo);
 			
 			/* Define o protocolo na restricao */
 			consulta.setProtocolo(protocolo);
+			
+			/* Inserindo Log */
+			LogOperacao logOperacao = new LogOperacao();
+			logOperacao.setDescricao("Restrição Consulta - Protocolo Id = " + protocolo.getId());
+			logOperacao.setOperacao("CONSULTAR");
+			logOperacao.setOperador(operador);
+			logOperacao = logOperacaoModel.update(logOperacao);
 			
 		} catch (Exception e) {
 			throw e;

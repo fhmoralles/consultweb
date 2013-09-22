@@ -5,12 +5,16 @@ import java.util.Calendar;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import br.com.consultweb.domain.parametros.LogOperacao;
+import br.com.consultweb.domain.parametros.Operador;
 import br.com.consultweb.domain.parametros.Parametros;
 import br.com.consultweb.domain.servico.Exclusao;
 import br.com.consultweb.domain.servico.Faturamento;
 import br.com.consultweb.domain.servico.Protocolo;
 import br.com.consultweb.domain.servico.Restricao;
+import br.com.consultweb.domain.types.Dispositivo;
 import br.com.consultweb.domain.types.SituacaoFaturamento;
+import br.com.consultweb.model.parametros.spec.LogOperacaoModel;
 import br.com.consultweb.model.parametros.spec.ParametrosModel;
 import br.com.consultweb.model.servico.spec.ExclusaoModel;
 import br.com.consultweb.model.servico.spec.FaturamentoModel;
@@ -36,6 +40,9 @@ public class ExclusaoModelImpl implements ExclusaoModel {
 
 	@EJB
 	private ProtocoloModel protocoloModel;
+
+	@EJB
+	private LogOperacaoModel logOperacaoModel;
 	
 	@Override
 	public void create(Exclusao exclusao) {
@@ -49,6 +56,12 @@ public class ExclusaoModelImpl implements ExclusaoModel {
 
 	@Override
 	public Exclusao update(Exclusao exclusao) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Exclusao excluirRestricao(Exclusao exclusao, Dispositivo dispositivo, Operador operador) throws Exception {
 
 		/* Definir das datas de Inicio e Fim de Vigencia da Restrição */
 		Parametros parametros = parametrosModel.locate();
@@ -79,10 +92,18 @@ public class ExclusaoModelImpl implements ExclusaoModel {
 		protocolo.setDataGeracao(dataAtual.getTime());
 		protocolo.setExclusao(exclusao);
 		protocolo.setFaturamento(faturamento);
+		protocolo.setDispositivo(dispositivo);
 		protocolo = protocoloModel.update(protocolo);
 		
 		exclusao.setProtocolo(protocolo);
-		
+
+		/* Inserindo Log */
+		LogOperacao logOperacao = new LogOperacao();
+		logOperacao.setDescricao("Restrição Excludia - Protocolo Id = " + protocolo.getId());
+		logOperacao.setOperacao("EXCLUIR");
+		logOperacao.setOperador(operador);
+		logOperacao = logOperacaoModel.update(logOperacao);
+	
 		return exclusao;
 	}
 

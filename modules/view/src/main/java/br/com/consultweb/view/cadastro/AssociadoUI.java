@@ -129,4 +129,10 @@ public class AssociadoUI extends AbstractCRUD<Associado, AssociadoFilter> {
 		return associadoModel.getAssociadosPorFantasia("%" + filter.getFantasia() + "%");
 	}
 
+	@Override
+	protected String getMsgDelete() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
