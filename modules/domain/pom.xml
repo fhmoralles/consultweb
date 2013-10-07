@@ -8,13 +8,13 @@
 	<parent>
 		<groupId>br.com.consultweb</groupId>
 		<artifactId>project</artifactId>
-		<version>1.0.2.3-Beta</version>
+		<version>1.0.3-Beta</version>
 		<relativePath>..</relativePath>
 	</parent>
 
 	<groupId>br.com.consultweb</groupId>
 	<artifactId>domain</artifactId>
-	<version>1.0.2.3-Beta</version>
+	<version>1.0.3-Beta</version>
 	<packaging>jar</packaging>
 	
 	<dependencies>

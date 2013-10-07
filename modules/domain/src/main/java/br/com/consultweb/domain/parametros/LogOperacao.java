@@ -22,7 +22,7 @@ import br.com.consultweb.domain.servico.Protocolo;
 @Entity
 @Table(name = "logoperacao")
 @SequenceGenerator(name = "identificador", sequenceName = "identificador", allocationSize = 1)
-public class LogOperacao  implements Serializable {
+public class LogOperacao implements Serializable {
 
 	/**
 	 * 
@@ -80,7 +80,7 @@ public class LogOperacao  implements Serializable {
 	public boolean equals(Object arg0) {
 
 		if (arg0 instanceof LogOperacao) {
-			final Protocolo c = (Protocolo) arg0;
+			final LogOperacao c = (LogOperacao) arg0;
 			return new EqualsBuilder().append(this.getId(), c.getId())
 					.isEquals();
 		}

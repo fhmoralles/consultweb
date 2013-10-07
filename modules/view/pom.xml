@@ -8,13 +8,13 @@
 	<parent>
 		<groupId>br.com.consultweb</groupId>
 		<artifactId>project</artifactId>
-		<version>1.0.2.3-Beta</version>
+		<version>1.0.3-Beta</version>
 		<relativePath>..</relativePath>
 	</parent>
 
 	<groupId>br.com.consultweb</groupId>
 	<artifactId>view</artifactId>
-	<version>1.0.2.3-Beta</version>
+	<version>1.0.3-Beta</version>
 	<packaging>war</packaging>
 	
 	<dependencies>
@@ -37,14 +37,14 @@
 		<dependency>
 			<groupId>br.com.consultweb</groupId>
 			<artifactId>domain</artifactId>
-			<version>1.0.2.3-Beta</version>
+			<version>1.0.3-Beta</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>br.com.consultweb</groupId>
 			<artifactId>model</artifactId>
-			<version>1.0.2.3-Beta</version>
+			<version>1.0.3-Beta</version>
 			<scope>provided</scope>
 		</dependency>
 

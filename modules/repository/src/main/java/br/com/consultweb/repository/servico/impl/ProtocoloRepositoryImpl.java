@@ -1,95 +1,48 @@
 package br.com.consultweb.repository.servico.impl;
 
-import java.util.Calendar;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
-import javax.persistence.Query;
+import javax.sql.DataSource;
 
 import br.com.consultweb.domain.servico.Protocolo;
+import br.com.consultweb.domain.servico.resumo.MovimentacoesProtocolosDia;
 import br.com.consultweb.repository.servico.spec.ProtocoloRepository;
 import br.com.consultweb.repository.spec.AbstractConsultWebRepository;
 
 @Stateless(name = "protocoloRepository")
 public class ProtocoloRepositoryImpl extends
-		AbstractConsultWebRepository<Protocolo> implements
-		ProtocoloRepository {
+		AbstractConsultWebRepository<Protocolo> implements ProtocoloRepository {
 
+    @Resource(name = "ConsultWebDS", mappedName = "java:/ConsultWebDS")
+    private DataSource dataSource;
+	
+    
 	public ProtocoloRepositoryImpl() {
 		super(Protocolo.class);
 	}
 
 	@Override
-	public Integer getQtdeProtocolosConsultaDiaAnterior(Calendar dataResumo) {
+	public MovimentacoesProtocolosDia getMovimentacoesProtocolosDia(Date dataMovimento) throws SQLException {
+
+		MovimentacoesProtocolosDia movimentacoesProtocolosDia = null;
 		
-		Calendar dataGeracaoInicio = (Calendar)dataResumo.clone();
-		dataGeracaoInicio.add(Calendar.DATE, -1);
-		dataGeracaoInicio.set(Calendar.HOUR, 0);
-		dataGeracaoInicio.set(Calendar.MINUTE, 0);
-		dataGeracaoInicio.set(Calendar.SECOND, 0);
-
-		Calendar dataGeracaoFim = (Calendar)dataResumo.clone();
-		dataGeracaoFim.setTimeInMillis(System.currentTimeMillis());
-		dataGeracaoFim.add(Calendar.DATE, -1);
-		dataGeracaoFim.set(Calendar.HOUR, 23);
-		dataGeracaoFim.set(Calendar.MINUTE, 59);
-		dataGeracaoFim.set(Calendar.SECOND, 59);
+		Connection conn = dataSource.getConnection();
+		java.sql.Date dataSqlMov = new java.sql.Date(dataMovimento.getTime());
+		PreparedStatement ps = conn.prepareStatement("select count(id_restricao) \"restricoes\", count(id_consulta) \"consultas\", count(id_exclusao) \"exclusoes\" from protocolo where date(datageracao) = ?");
+		ps.setDate(1, dataSqlMov);
+		ResultSet rs = ps.executeQuery();
 		
-		/* Gerar o ultimo registro de Restricao encontrado */
-		Query query = getEntityManager().createNamedQuery("queryProtocoloConsultasDia");
-		query.setParameter("dataGeracaoInicio", dataGeracaoInicio.getTime());
-		query.setParameter("dataGeracaoFim", dataGeracaoFim.getTime());
-
-		return query.getResultList().size();
-	}
-
-	@Override
-	public Integer getQtdeProtocolosRestricaoDiaAnterior(Calendar dataResumo) {
-	
-		Calendar dataGeracaoInicio = (Calendar)dataResumo.clone();
-		dataGeracaoInicio.setTimeInMillis(System.currentTimeMillis());
-		dataGeracaoInicio.add(Calendar.DATE, -1);
-		dataGeracaoInicio.set(Calendar.HOUR, 0);
-		dataGeracaoInicio.set(Calendar.MINUTE, 0);
-		dataGeracaoInicio.set(Calendar.SECOND, 0);
-
-		Calendar dataGeracaoFim = (Calendar)dataResumo.clone();
-		dataGeracaoFim.setTimeInMillis(System.currentTimeMillis());
-		dataGeracaoFim.add(Calendar.DATE, -1);
-		dataGeracaoFim.set(Calendar.HOUR, 23);
-		dataGeracaoFim.set(Calendar.MINUTE, 59);
-		dataGeracaoFim.set(Calendar.SECOND, 59);
+		if(rs.next()) {
+			movimentacoesProtocolosDia = new MovimentacoesProtocolosDia(rs.getInt("restricoes"), rs.getInt("consultas"), rs.getInt("exclusoes"));
+		}
 		
-		/* Gerar o ultimo registro de Restricao encontrado */
-		Query query = getEntityManager().createNamedQuery("queryProtocoloRestricoesDia");
-		query.setParameter("dataGeracaoInicio", dataGeracaoInicio.getTime());
-		query.setParameter("dataGeracaoFim", dataGeracaoFim.getTime());
-
-		return query.getResultList().size();
-	}
-
-	@Override
-	public Integer getQtdeProtocolosExclusaoDiaAnterior(Calendar dataResumo) {
-
-		Calendar dataGeracaoInicio = (Calendar)dataResumo.clone();
-		dataGeracaoInicio.setTimeInMillis(System.currentTimeMillis());
-		dataGeracaoInicio.add(Calendar.DATE, -1);
-		dataGeracaoInicio.set(Calendar.HOUR, 0);
-		dataGeracaoInicio.set(Calendar.MINUTE, 0);
-		dataGeracaoInicio.set(Calendar.SECOND, 0);
-
-		Calendar dataGeracaoFim = (Calendar)dataResumo.clone();
-		dataGeracaoFim.setTimeInMillis(System.currentTimeMillis());
-		dataGeracaoFim.add(Calendar.DATE, -1);
-		dataGeracaoFim.set(Calendar.HOUR, 23);
-		dataGeracaoFim.set(Calendar.MINUTE, 59);
-		dataGeracaoFim.set(Calendar.SECOND, 59);
-		
-		/* Gerar o ultimo registro de Restricao encontrado */
-		Query query = getEntityManager().createNamedQuery("queryProtocoloExclusoesDia");
-		query.setParameter("dataGeracaoInicio", dataGeracaoInicio.getTime());
-		query.setParameter("dataGeracaoFim", dataGeracaoFim.getTime());
-
-		return query.getResultList().size();
+		return movimentacoesProtocolosDia;
 	}
 
 }

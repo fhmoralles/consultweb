@@ -27,14 +27,6 @@ import br.com.consultweb.domain.types.Dispositivo;
 @Entity
 @Table(name = "protocolo")
 @SequenceGenerator(name = "identificador", sequenceName = "identificador", allocationSize = 1)
-@NamedQueries(
-	{ 
-		@NamedQuery(name = "queryProtocoloConsultasDia", query = "select p from Protocolo p where p.consulta is not null and p.dataGeracao between :dataGeracaoInicio and :dataGeracaoFim"),
-		@NamedQuery(name = "queryProtocoloRestricoesDia", query = "select p from Protocolo p where p.restricao is not null and p.dataGeracao between :dataGeracaoInicio and :dataGeracaoFim"),
-		@NamedQuery(name = "queryProtocoloExclusoesDia", query = "select p from Protocolo p where p.exclusao is not null and p.dataGeracao between :dataGeracaoInicio and :dataGeracaoFim"),
-	}
-)
-
 public class Protocolo implements Serializable {
 
 	/**

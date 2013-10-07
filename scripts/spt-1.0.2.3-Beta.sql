@@ -20,5 +20,8 @@ CREATE TABLE emails
   email character varying(255),
   CONSTRAINT pk_emails PRIMARY KEY (id)
 );
+-- Inclusao de hora do Log
+ALTER TABLE logoperacao
+  ADD COLUMN datahoraoperacao timestamp default now();
 --Registra versão
 insert into versao values ( nextval('identificador'), '1.0.2.3-Beta');
