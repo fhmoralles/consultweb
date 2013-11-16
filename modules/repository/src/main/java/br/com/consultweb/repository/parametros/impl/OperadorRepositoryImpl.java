@@ -34,8 +34,6 @@ public class OperadorRepositoryImpl extends AbstractConsultWebRepository<Operado
 		final Path<Integer> pathCodigo = root.get("codigo");
 		final Predicate predicateCodigo = criteriaBuilder.equal(pathCodigo, codigo);
 		criteriaQuery.where(predicateCodigo);
-
-		criteriaQuery.where(predicateCodigo);
 		
 		final TypedQuery<Operador> typedQuery = em.createQuery(criteriaQuery);
 		

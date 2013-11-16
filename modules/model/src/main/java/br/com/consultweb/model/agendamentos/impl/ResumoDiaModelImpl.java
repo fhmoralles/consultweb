@@ -54,51 +54,58 @@ public class ResumoDiaModelImpl implements ResumoDiaModel {
 		String msg = StringUtils.EMPTY;
 		Calendar dataMovimento = Calendar.getInstance();
 		dataMovimento.setTimeInMillis(System.currentTimeMillis());
-		dataMovimento.set(Calendar.DATE, 9);
-		dataMovimento.set(Calendar.MONTH, 8);
-		
+		//dataMovimento.set(Calendar.DATE, 9);
+		//dataMovimento.set(Calendar.MONTH, 8);
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		dataMovimento.add(Calendar.DATE, -1);
 
 		try {
-		
+
 			/* Recupera as movimentações */
 			MovimentacoesProtocolosDia movimentacoesProtocolosDia = protocoloRepository
 					.getMovimentacoesProtocolosDia(dataMovimento.getTime());
-	
-			if(movimentacoesProtocolosDia == null) {
-				throw new EmailNotSendException("Movimento Protocolo do Dia não encontrado!!!");
+
+			if (movimentacoesProtocolosDia == null) {
+				throw new EmailNotSendException(
+						"Movimento Protocolo do Dia não encontrado!!!");
 			}
-			
+
 			/* Recuperar os Emails */
 			StringBuilder destinos = new StringBuilder(StringUtils.EMPTY);
 			List<EmailEvento> emailsEventos = emailsEventosModel
 					.getEmailsPorEvento(Evento.MOVIMENTACOESPROTOCOLOSDIA);
 			for (EmailEvento emailEvento : emailsEventos) {
-				destinos.append(emailEvento.getEmail() + "; ");
+				if(!destinos.toString().equals(StringUtils.EMPTY)) {
+					destinos.append(EmailHelper.SEPARATOR);
+				}
+				destinos.append(emailEvento.getEmail());
 			}
-	
+
 			/* Criar no messages */
 			String assunto = "Consult: Resumo do dia "
 					+ sdf.format(dataMovimento.getTime());
-	
+
 			StringBuilder mensagem = new StringBuilder();
 			mensagem.append("<span style='font-family:verdana,sans-serif'>");
 			mensagem.append("<u>Total de Movimentacoes: <b>"
 					+ movimentacoesProtocolosDia.getTotalMovimentacoes()
 					+ "</u></b><br>");
 			mensagem.append("Total de Consultas: <i>"
-					+ movimentacoesProtocolosDia.getConsultas() + "("
-					+ movimentacoesProtocolosDia.getPercConsultas().doubleValue()
-					+ "%)</i><br>");
+					+ movimentacoesProtocolosDia.getConsultas()
+					+ "("
+					+ movimentacoesProtocolosDia.getPercConsultas()
+							.doubleValue() + "%)</i><br>");
 			mensagem.append("Total de Restricoes: <i>"
-					+ movimentacoesProtocolosDia.getRestricoes() + "("
-					+ movimentacoesProtocolosDia.getPercRestricoes().doubleValue()
-					+ "%)</i><br>");
+					+ movimentacoesProtocolosDia.getRestricoes()
+					+ "("
+					+ movimentacoesProtocolosDia.getPercRestricoes()
+							.doubleValue() + "%)</i><br>");
 			mensagem.append("Total de Exclusoes: <i>"
-					+ movimentacoesProtocolosDia.getExclusoes() + "("
-					+ movimentacoesProtocolosDia.getPercExclusoes().doubleValue()
-					+ "%)</i>");
+					+ movimentacoesProtocolosDia.getExclusoes()
+					+ "("
+					+ movimentacoesProtocolosDia.getPercExclusoes()
+							.doubleValue() + "%)</i>");
 			mensagem.append("</span>");
 
 			System.out.println(destinos.toString() + "\n" + assunto + "\n"
@@ -108,9 +115,8 @@ public class ResumoDiaModelImpl implements ResumoDiaModel {
 						"Sem destinos definidos paro evento "
 								+ Evento.MOVIMENTACOESPROTOCOLOSDIA.toString());
 			}
-			// EmailHelper.enviarEmail(destinos.toString(), assunto,
-			// mensagem.toString(),
-			// TipoEmail.HTML, null);
+			EmailHelper.enviarEmail(destinos.toString(), assunto,
+					mensagem.toString(), TipoEmail.HTML, null);
 			msg = "Fim Envio de Resumo do dia "
 					+ sdf.format(dataMovimento.getTime()) + ": Enviado -> "
 					+ movimentacoesProtocolosDia;

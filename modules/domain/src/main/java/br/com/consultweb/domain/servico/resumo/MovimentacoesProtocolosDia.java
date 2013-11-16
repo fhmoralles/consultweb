@@ -68,8 +68,10 @@ public class MovimentacoesProtocolosDia implements Serializable {
 			return percConsultas;
 		} else {
 			BigDecimal conDecimal = new BigDecimal(this.getConsultas());
+			conDecimal.setScale(2, RoundingMode.HALF_UP);
 			BigDecimal totalDecimal = new BigDecimal(this.getTotalMovimentacoes());
-			percConsultas = conDecimal.divide(totalDecimal);
+			totalDecimal.setScale(2, RoundingMode.HALF_UP);
+			percConsultas = conDecimal.divide(totalDecimal, 2, RoundingMode.HALF_UP);
 			percConsultas = percConsultas.multiply(big100);
 		}
 		
@@ -86,8 +88,10 @@ public class MovimentacoesProtocolosDia implements Serializable {
 			return percRestricoes;
 		} else {
 			BigDecimal resDecimal = new BigDecimal(this.getRestricoes());
+			resDecimal.setScale(2, RoundingMode.HALF_UP);
 			BigDecimal totalDecimal = new BigDecimal(this.getTotalMovimentacoes());
-			percRestricoes = resDecimal.divide(totalDecimal);
+			totalDecimal.setScale(2, RoundingMode.HALF_UP);
+			percRestricoes = resDecimal.divide(totalDecimal, 2, RoundingMode.HALF_UP);
 			percRestricoes = percRestricoes.multiply(big100);
 		}
 		
@@ -105,8 +109,10 @@ public class MovimentacoesProtocolosDia implements Serializable {
 			return percExclusoes;
 		} else {
 			BigDecimal excDecimal = new BigDecimal(this.getExclusoes());
+			excDecimal.setScale(2, RoundingMode.HALF_UP);
 			BigDecimal totalDecimal = new BigDecimal(this.getTotalMovimentacoes());
-			percExclusoes = excDecimal.divide(totalDecimal);
+			totalDecimal.setScale(2, RoundingMode.HALF_UP);
+			percExclusoes = excDecimal.divide(totalDecimal, 2, RoundingMode.HALF_UP);
 			percExclusoes = percExclusoes.multiply(big100);
 		}
 		

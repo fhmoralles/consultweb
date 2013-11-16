@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: domain
+Bundle-SymbolicName: domain
+Bundle-Version: 1.0.0.qualifier
+Export-Package: br.com.consultweb.domain.cadastro,
+ br.com.consultweb.domain.parametros,
+ br.com.consultweb.domain.servico,
+ br.com.consultweb.domain.servico.consulta,
+ br.com.consultweb.domain.servico.resumo,
+ br.com.consultweb.domain.types

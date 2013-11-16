@@ -91,7 +91,6 @@ public class NaturezaInclusaoModelImpl implements NaturezaInclusaoModel {
 	@Override
 	public List<NaturezaInclusao> getNaturezaInclusaoPorDescricao(
 			String descricao) {
-
 		return naturezaInclusaoRepository.getNaturezaInclusaoPorDescricao(descricao);
 	}
 
